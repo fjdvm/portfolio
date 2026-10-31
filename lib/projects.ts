@@ -1,4 +1,9 @@
+export type Cover =
+  | { kind: "photo"; src: string; alt: string; credit: string; position?: string }
+  | { kind: "pattern"; color: string };
+
 export type Project = {
+  cover: Cover;
   title: string;
   year: number;
   summary: string;
@@ -11,6 +16,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: "CREOMS",
+    cover: { kind: "pattern", color: "#0f766e" },
     year: 2026,
     summary:
       "Customer relationship and e-commerce ordering management system for a client. I lead its development.",
@@ -19,6 +25,13 @@ export const projects: Project[] = [
   },
   {
     title: "AGAPAI",
+    cover: {
+      kind: "photo",
+      src: "/images/projects/AGAPAI_Champion.jpg",
+      alt: "Team AI Did It holding the Champion and Most Innovative Prototype plaques",
+      credit: "RISFI",
+      position: "center 30%",
+    },
     year: 2026,
     summary:
       "Offline-first injury first-aid app with a health-office dashboard. Champion and Most Innovative Prototype at PUP Hackathon 2026, built by a team of five with me as AI and lead developer.",
@@ -27,6 +40,12 @@ export const projects: Project[] = [
   },
   {
     title: "INGAT Remit",
+    cover: {
+      kind: "photo",
+      src: "/images/projects/INGAT_Stellar.jpg",
+      alt: "Participants at the Stellar APAC Hackathon 2026 in Manila",
+      credit: "Rise In and Stellar",
+    },
     year: 2026,
     summary:
       "Split-remittance app for OFWs on Stellar, built for the Stellar APAC Hackathon 2026.",
@@ -35,6 +54,7 @@ export const projects: Project[] = [
   },
   {
     title: "PACE",
+    cover: { kind: "pattern", color: "#7c3aed" },
     year: 2026,
     summary:
       "Pair-programming AI Coding Environment, a hint-only AI tutor research prototype from PUP students.",
