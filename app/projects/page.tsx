@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import AnimatedContent from "@/components/ui/animated-content";
 import BlurText from "@/components/ui/blur-text";
+import AnimatedContent from "@/components/ui/animated-content";
 import { ProjectCard } from "@/components/ui/project-card";
 import { projects } from "@/lib/projects";
 
@@ -17,7 +17,8 @@ export default function ProjectsPage() {
         className="font-serif text-[44px] leading-[52px] tracking-[-0.66px]"
       />
       <p className="mt-3 text-[17px] leading-7 text-ink2">
-        Things I&apos;ve built for hackathons, research, and a real client.
+        Things I&apos;ve built for class, for hackathons, and for fun. Most are
+        small; a few are still going.
       </p>
       <AnimatedContent
         distance={24}
