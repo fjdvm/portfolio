@@ -1,6 +1,9 @@
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import ProjectsPage from "@/app/projects/page";
+
+// jsdom has no WebGL; PatternWaves renders its canvas through ogl.
+vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
 
 afterEach(cleanup);
 
@@ -110,4 +113,17 @@ test("AGAPAI Cover carries the winner badge, others do not", () => {
   render(<ProjectsPage />);
   expect(card("AGAPAI").getByText("Winner · PUP Hackathon 2026")).toBeDefined();
   expect(card("PACE").queryByText(/^Winner/)).toBeNull();
+});
+
+test("under reduced motion, photo Covers show the unprocessed image with alt text", () => {
+  render(<ProjectsPage />);
+  const img = card("AGAPAI").getByRole("img");
+  expect(img.tagName).toBe("IMG");
+  expect(img.getAttribute("alt")).toMatch(/Champion and Most Innovative/);
+});
+
+test("CREOMS pattern Cover carries the title in a label", () => {
+  render(<ProjectsPage />);
+  const pattern = card("CREOMS").getByTestId("cover-pattern");
+  expect(pattern.textContent).toBe("CREOMS");
 });

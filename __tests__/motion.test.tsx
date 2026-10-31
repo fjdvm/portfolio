@@ -1,5 +1,8 @@
 import { afterEach, expect, test, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
+
+// jsdom has no WebGL; PatternWaves renders its canvas through ogl.
+vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
 import Home from "@/app/page";
 import ProjectsPage from "@/app/projects/page";
 import { mockMatchMedia } from "../vitest.setup";
