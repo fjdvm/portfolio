@@ -75,15 +75,19 @@ export default function Home() {
           or <ContactLink label="Email" text="send me an email" />.
         </p>
       </AnimatedContent>
-      <AnimatedContent distance={24} className="mt-9">
-        <figure>
-          <ProjectCover project={hero} size="hero" showCredit={false} />
-          <figcaption className="mt-2.5 flex flex-wrap justify-between gap-x-4 font-mono text-xs leading-[normal] text-faint">
-            <span>PUP Hackathon 2026 · Team AI Did It</span>
-            <span>Photo: {hero.cover.kind === "photo" && hero.cover.credit}</span>
-          </figcaption>
-        </figure>
-      </AnimatedContent>
+      {site.showHeroPhoto && (
+        <AnimatedContent distance={24} className="mt-9">
+          <figure>
+            <ProjectCover project={hero} size="hero" showCredit={false} />
+            <figcaption className="mt-2.5 flex flex-wrap justify-between gap-x-4 font-mono text-xs leading-[normal] text-faint">
+              <span>PUP Hackathon 2026 · Team AI Did It</span>
+              <span>
+                Photo: {hero.cover.kind === "photo" && hero.cover.credit}
+              </span>
+            </figcaption>
+          </figure>
+        </AnimatedContent>
+      )}
       <AnimatedContent distance={24} className="mt-11">
         <div
           role="group"
@@ -127,7 +131,11 @@ export default function Home() {
                 key={project.title}
                 className="flex items-center gap-4 border-line py-3.5"
               >
-                <ProjectCover project={project} size="thumb" showCredit={false} />
+                <ProjectCover
+                  project={project}
+                  size="thumb"
+                  showCredit={false}
+                />
                 <div className="min-w-0 flex-1">
                   <h3 className="font-medium leading-[normal] text-ink">
                     {project.title}

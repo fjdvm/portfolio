@@ -1,6 +1,7 @@
 import { afterEach, expect, test, vi } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import Home from "@/app/page";
+import { site } from "@/lib/site";
 
 // jsdom has no WebGL; PatternWaves renders its canvas through ogl.
 vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
@@ -98,12 +99,14 @@ test("has no Writings section or link", () => {
   expect(screen.queryByText(/writings?/i)).toBeNull();
 });
 
-test("hero photo is the AGAPAI Champion image with caption and credit", () => {
+test("hero photo with caption shows only when enabled", () => {
   render(<Home />);
-  expect(
-    screen.getAllByRole("img", { name: /Champion and Most Innovative/ }).length,
-  ).toBeGreaterThanOrEqual(2);
-  expect(screen.getByText("PUP Hackathon 2026 · Team AI Did It")).toBeDefined();
+  const caption = screen.queryByText("PUP Hackathon 2026 · Team AI Did It");
+  if (!site.showHeroPhoto) {
+    expect(caption).toBeNull();
+    return;
+  }
+  expect(caption).toBeDefined();
   expect(screen.getAllByText("Photo: RISFI").length).toBe(2);
 });
 

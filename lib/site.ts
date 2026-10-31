@@ -1,6 +1,8 @@
 export const site = {
   name: "Fitz Martin",
   description: "Student builder at PUP.",
+  // Hero photo on Home is built but hidden for now; flip to show it again.
+  showHeroPhoto: false,
   nav: [
     { href: "/", label: "Home" },
     { href: "/projects", label: "Projects" },
