@@ -4,6 +4,7 @@ import { ProjectCover } from "@/components/ui/project-cover";
 import Link from "next/link";
 import { events, projects, selectedProjects } from "@/lib/projects";
 import { site } from "@/lib/site";
+import EventPhotos from "@/components/ui/event-photos";
 import { AwardBadge } from "@/components/ui/award-badge";
 
 function SectionHeader({
@@ -161,7 +162,10 @@ export default function Home() {
       <AnimatedContent distance={24} className="mt-14">
         <section aria-labelledby="events">
           <SectionHeader id="events" title="Events & community" />
-          <ul className="mt-2">
+          <div className="mt-2">
+            <EventPhotos />
+          </div>
+          <ul className="mt-3">
             {events.map((event) => (
               <li key={event.title} className="flex gap-4 py-2.5">
                 <span className="w-[84px] shrink-0 font-mono text-[13px] leading-[22px] text-faint">

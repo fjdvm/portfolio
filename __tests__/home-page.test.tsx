@@ -1,5 +1,5 @@
 import { afterEach, expect, test, vi } from "vitest";
-import { cleanup, render, screen, within } from "@testing-library/react";
+import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
 import Home from "@/app/page";
 import { site } from "@/lib/site";
 
@@ -117,4 +117,23 @@ test("photo project rows show their credit; CREOMS has none", () => {
   expect(within(rows[0]).queryByText(/Photo:/)).toBeNull();
   expect(within(rows[1]).getByText("Photo: RISFI")).toBeDefined();
   expect(within(rows[2]).getByText("Photo: Rise In and Stellar")).toBeDefined();
+});
+
+test("events show three full-colour photos with credits in alt text, before the rows", async () => {
+  render(<Home />);
+  const section = screen.getByRole("region", { name: "Events & community" });
+  const photos = within(section).getAllByRole("img");
+  expect(photos.map((p) => p.getAttribute("src"))).toEqual([
+    "/images/projects/AGAPAI_Most_Innovative.jpg",
+    "/images/projects/AGAPAI_Champion.jpg",
+    "/images/projects/INGAT_Stellar.jpg",
+  ]);
+  expect(photos.map((p) => /Photo: (RISFI|Rise In and Stellar)$/.test(p.getAttribute("alt")!))).toEqual([true, true, true]);
+  // Reduced motion: cards sit in place, no pop-in from scale 0.
+  await waitFor(() =>
+    expect((photos[0].parentElement as HTMLElement).style.transform).toMatch(
+      /scale\(1\.0000\)/,
+    ),
+  );
+  expect(photos[0].compareDocumentPosition(within(section).getAllByRole("listitem")[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 });
