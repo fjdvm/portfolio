@@ -1,6 +1,7 @@
 import { afterEach, expect, test, vi } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import Home from "@/app/page";
+import { site } from "@/lib/site";
 
 // jsdom has no WebGL; PatternWaves renders its canvas through ogl.
 vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
@@ -25,7 +26,7 @@ test("intro is one paragraph that ends by linking LinkedIn, GitHub and email, wi
   expect(links.map((l) => [l.textContent, l.getAttribute("href")])).toEqual([
     ["LinkedIn", "https://www.linkedin.com/in/fitzmartin"],
     ["GitHub", "https://github.com/fjdvm"],
-    ["email", "mailto:jude.nitram08@gmail.com"],
+    ["send me an email", "mailto:jude.nitram08@gmail.com"],
   ]);
   expect(screen.queryByText(/résumé|resume|cv/i)).toBeNull();
 });
@@ -96,4 +97,24 @@ test("events lists exactly PUP Hackathon 2026 and Stellar APAC Hackathon", () =>
 test("has no Writings section or link", () => {
   render(<Home />);
   expect(screen.queryByText(/writings?/i)).toBeNull();
+});
+
+test("hero photo with caption shows only when enabled", () => {
+  render(<Home />);
+  const caption = screen.queryByText("PUP Hackathon 2026 · Team AI Did It");
+  if (!site.showHeroPhoto) {
+    expect(caption).toBeNull();
+    return;
+  }
+  expect(caption).toBeDefined();
+  expect(screen.getAllByText("Photo: RISFI").length).toBe(2);
+});
+
+test("photo project rows show their credit; CREOMS has none", () => {
+  render(<Home />);
+  const section = screen.getByRole("region", { name: "Selected projects" });
+  const rows = within(section).getAllByRole("listitem");
+  expect(within(rows[0]).queryByText(/Photo:/)).toBeNull();
+  expect(within(rows[1]).getByText("Photo: RISFI")).toBeDefined();
+  expect(within(rows[2]).getByText("Photo: Rise In and Stellar")).toBeDefined();
 });

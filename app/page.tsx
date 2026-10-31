@@ -2,7 +2,7 @@ import AnimatedContent from "@/components/ui/animated-content";
 import BlurText from "@/components/ui/blur-text";
 import { ProjectCover } from "@/components/ui/project-cover";
 import Link from "next/link";
-import { events, selectedProjects } from "@/lib/projects";
+import { events, projects, selectedProjects } from "@/lib/projects";
 import { site } from "@/lib/site";
 import { AwardBadge } from "@/components/ui/award-badge";
 
@@ -35,7 +35,7 @@ function ContactLink({
 }) {
   const link = site.links.find((l) => l.label === label)!;
   return (
-    <a href={link.href} className="underline">
+    <a href={link.href} className="text-ink underline">
       {text}
     </a>
   );
@@ -54,6 +54,8 @@ const glance: { label: string; badge?: string; value: string }[] = [
   },
 ];
 
+const hero = projects.find((p) => p.title === "AGAPAI")!;
+
 export default function Home() {
   return (
     <section className="pt-[104px]">
@@ -70,9 +72,22 @@ export default function Home() {
           I lead development of a client system, and I&apos;m growing more
           interested in AI, cloud, and backend engineering. You can also find me
           on <ContactLink label="LinkedIn" />, <ContactLink label="GitHub" />,
-          or send me an <ContactLink label="Email" text="email" />.
+          or <ContactLink label="Email" text="send me an email" />.
         </p>
       </AnimatedContent>
+      {site.showHeroPhoto && (
+        <AnimatedContent distance={24} className="mt-9">
+          <figure>
+            <ProjectCover project={hero} size="hero" showCredit={false} />
+            <figcaption className="mt-2.5 flex flex-wrap justify-between gap-x-4 font-mono text-xs leading-[normal] text-faint">
+              <span>PUP Hackathon 2026 · Team AI Did It</span>
+              <span>
+                Photo: {hero.cover.kind === "photo" && hero.cover.credit}
+              </span>
+            </figcaption>
+          </figure>
+        </AnimatedContent>
+      )}
       <AnimatedContent distance={24} className="mt-11">
         <div
           role="group"
@@ -81,11 +96,16 @@ export default function Home() {
         >
           <dl className="flex flex-col gap-3.5">
             {glance.map((row) => (
-              <div key={row.label} className="flex items-center gap-4">
-                <dt className="w-[84px] shrink-0 font-mono text-xs leading-[normal] text-faint">
+              <div
+                key={row.label}
+                className={`flex gap-4 ${row.badge ? "items-start" : "items-center"}`}
+              >
+                <dt
+                  className={`w-[84px] shrink-0 font-mono text-xs text-faint ${row.badge ? "leading-6" : "leading-5"}`}
+                >
                   {row.label}
                 </dt>
-                <dd className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[15px] leading-[normal] text-ink2">
+                <dd className="flex min-w-0 flex-1 flex-col items-start gap-1.5 text-[15px] leading-[normal] text-ink2">
                   {row.badge && <AwardBadge label={row.badge} />}
                   {row.value}
                 </dd>
@@ -105,13 +125,17 @@ export default function Home() {
               All projects →
             </Link>
           </SectionHeader>
-          <ul className="mt-2">
+          <ul className="mt-2 [&>li:nth-child(2)]:border-b">
             {selectedProjects.map((project) => (
               <li
                 key={project.title}
-                className="flex items-center gap-4 border-b border-line py-3.5 last:border-b-0"
+                className="flex items-center gap-4 border-line py-3.5"
               >
-                <ProjectCover project={project} size="thumb" />
+                <ProjectCover
+                  project={project}
+                  size="thumb"
+                  showCredit={false}
+                />
                 <div className="min-w-0 flex-1">
                   <h3 className="font-medium leading-[normal] text-ink">
                     {project.title}
@@ -119,6 +143,11 @@ export default function Home() {
                   <p className="mt-[3px] line-clamp-2 text-sm leading-5 text-muted">
                     {project.summary}
                   </p>
+                  {project.cover.kind === "photo" && (
+                    <p className="mt-[3px] font-mono text-[11px] leading-[normal] text-faint">
+                      Photo: {project.cover.credit}
+                    </p>
+                  )}
                 </div>
                 <time className="font-mono text-[13px] leading-[normal] text-faint">
                   {project.year}

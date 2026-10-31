@@ -12,6 +12,8 @@ export type HalftoneRevealShape = 'dot' | 'ellipse' | 'square' | 'diamond' | 'li
 export interface HalftoneRevealProps {
   src?: string;
   fit?: 'contain' | 'cover';
+  /** Vertical anchor of a cropped image, 0 = top, 1 = bottom. */
+  focusY?: number;
   mode?: HalftoneRevealMode;
   shape?: HalftoneRevealShape;
   cellSize?: number;
@@ -38,6 +40,7 @@ export interface HalftoneRevealProps {
 
 type Settings = {
   fit: 'contain' | 'cover';
+  focusY: number;
   mode: number;
   shape: number;
   cellSize: number;
@@ -422,6 +425,7 @@ const measureEdge = (context: CanvasRenderingContext2D, image: HTMLImageElement)
 const HalftoneReveal = ({
   src = DEFAULT_SRC,
   fit = 'cover',
+  focusY = 0.5,
   mode = 'mono',
   shape = 'dot',
   cellSize = 6,
@@ -450,6 +454,7 @@ const HalftoneReveal = ({
   const wakeRef = useRef<(() => void) | null>(null);
   const settings: Settings = {
     fit,
+    focusY: clamp(focusY, 0, 1),
     mode: MODES[mode] ?? 0,
     shape: SHAPES[shape] ?? 0,
     cellSize: clamp(cellSize, 2, 80),
@@ -616,7 +621,7 @@ const HalftoneReveal = ({
       const scale = (s.fit === 'cover' ? Math.max : Math.min)(width / image.naturalWidth, height / image.naturalHeight);
       const w = image.naturalWidth * scale;
       const h = image.naturalHeight * scale;
-      return [(width - w) / 2, (height - h) / 2, w, h];
+      return [(width - w) / 2, (height - h) * s.focusY, w, h];
     };
 
     const resize = () => {
