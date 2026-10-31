@@ -39,17 +39,21 @@ export function ProjectCover({
     <div
       data-testid="cover-pattern"
       aria-hidden="true"
-      className={
+      className={`cover-pattern ${
         thumb
           ? "size-14 shrink-0 rounded-lg"
           : "aspect-[348/216] rounded-[10px]"
+      }`}
+      style={
+        {
+          backgroundColor: `var(--${cover.color}soft)`,
+          backgroundImage: `radial-gradient(circle, var(--${cover.color}) ${dot}px, transparent ${dot + 0.5}px), radial-gradient(circle, color-mix(in srgb, var(--${cover.color}) 55%, transparent) ${dot * 0.6}px, transparent ${dot * 0.6 + 0.5}px)`,
+          backgroundSize: `${grid * 2}px ${grid * 2}px, ${grid * 2}px ${grid * 2}px`,
+          "--tile": `${grid * 2}px`,
+          "--p1": `${grid / 2}px`,
+          "--p2": `${grid * 1.5}px`,
+        } as React.CSSProperties
       }
-      style={{
-        backgroundColor: `var(--${cover.color}soft)`,
-        backgroundImage: `radial-gradient(circle, var(--${cover.color}) ${dot}px, transparent ${dot + 0.5}px), radial-gradient(circle, color-mix(in srgb, var(--${cover.color}) 55%, transparent) ${dot * 0.6}px, transparent ${dot * 0.6 + 0.5}px)`,
-        backgroundSize: `${grid * 2}px ${grid * 2}px, ${grid * 2}px ${grid * 2}px`,
-        backgroundPosition: `${grid / 2}px ${grid / 2}px, ${grid * 1.5}px ${grid * 1.5}px`,
-      }}
     />
   );
 }
