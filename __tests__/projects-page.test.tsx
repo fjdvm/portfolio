@@ -111,3 +111,16 @@ test("AGAPAI Cover carries the winner badge, others do not", () => {
   expect(card("AGAPAI").getByText("Winner · PUP Hackathon 2026")).toBeDefined();
   expect(card("PACE").queryByText(/^Winner/)).toBeNull();
 });
+
+test("under reduced motion, photo Covers show the unprocessed image with alt text", () => {
+  render(<ProjectsPage />);
+  const img = card("AGAPAI").getByRole("img");
+  expect(img.tagName).toBe("IMG");
+  expect(img.getAttribute("alt")).toMatch(/Champion and Most Innovative/);
+});
+
+test("CREOMS pattern Cover carries the title in a label", () => {
+  render(<ProjectsPage />);
+  const pattern = card("CREOMS").getByTestId("cover-pattern");
+  expect(pattern.textContent).toBe("CREOMS");
+});
