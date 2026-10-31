@@ -1,8 +1,10 @@
 import type { Project } from "@/lib/projects";
+import { ProjectCover } from "./project-cover";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="flex flex-col rounded-lg border border-black/10 p-4 dark:border-white/15">
+      <ProjectCover project={project} />
       <div className="flex items-baseline justify-between gap-4">
         <h2 className="font-semibold">{project.title}</h2>
         <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
