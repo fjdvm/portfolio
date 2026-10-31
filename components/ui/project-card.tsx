@@ -3,6 +3,8 @@ import { ProjectCover } from "./project-cover";
 import { WinnerBadge } from "./winner-badge";
 
 export function ProjectCard({ project }: { project: Project }) {
+  // Photo covers carry a credit caption below the image; keep the badge on the image.
+  const badgeClass = `absolute right-3.5 ${project.cover.kind === "photo" ? "bottom-9" : "bottom-3.5"}`;
   return (
     <article className="flex flex-col gap-3">
       <div className="relative">
@@ -10,14 +12,14 @@ export function ProjectCard({ project }: { project: Project }) {
         {project.badge && (
           <WinnerBadge
             label={project.badge}
-            className="absolute left-3.5 top-3.5"
+            className={badgeClass}
           />
         )}
         {project.status && (
           <WinnerBadge
             label={project.status}
             icon={false}
-            className="absolute left-3.5 top-3.5"
+            className={badgeClass}
           />
         )}
       </div>
