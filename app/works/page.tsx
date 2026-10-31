@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import BlurText from "@/components/ui/blur-text";
 import AnimatedContent from "@/components/ui/animated-content";
-import { ProjectCard } from "@/components/ui/project-card";
-import { projects } from "@/lib/projects";
+import { WorkCard } from "@/components/ui/work-card";
+import { works } from "@/lib/works";
 
-export const metadata: Metadata = { title: "Projects" };
+export const metadata: Metadata = { title: "Works" };
 
-export default function ProjectsPage() {
+export default function WorksPage() {
   return (
     <section className="pt-[88px]">
       <BlurText
         as="h1"
-        text="Projects"
+        text="Works"
         trigger="load"
         delay={100}
         className="font-serif text-[44px] leading-[52px] tracking-[-0.66px]"
@@ -25,8 +25,8 @@ export default function ProjectsPage() {
         stagger={0.08}
         className="mt-9 grid gap-x-6 gap-y-11 sm:grid-cols-2"
       >
-        {projects.map((project) => (
-          <ProjectCard key={project.title} project={project} />
+        {works.map((work) => (
+          <WorkCard key={work.title} work={work} />
         ))}
       </AnimatedContent>
     </section>

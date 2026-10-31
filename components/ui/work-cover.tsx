@@ -1,17 +1,17 @@
-import type { Project } from "@/lib/projects";
+import type { Work } from "@/lib/works";
 import { PatternArt, PhotoArt } from "./cover-art";
 import StarBorder from "./star-border";
 
-export function ProjectCover({
-  project,
+export function WorkCover({
+  work,
   size = "card",
   showCredit = true,
 }: {
-  project: Project;
+  work: Work;
   size?: "hero" | "card" | "thumb";
   showCredit?: boolean;
 }) {
-  const { cover } = project;
+  const { cover } = work;
   const thumb = size === "thumb";
   const box = thumb
     ? "size-14 rounded-lg"
@@ -75,7 +75,7 @@ export function ProjectCover({
       <PatternArt size={size} />
       {!thumb && (
         <span className="absolute bottom-3.5 left-3.5 rounded-lg bg-surface px-3 pb-[9px] pt-2 font-serif text-xl font-medium leading-[normal] text-ink">
-          {project.title}
+          {work.title}
         </span>
       )}
     </div>

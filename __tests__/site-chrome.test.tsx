@@ -18,10 +18,10 @@ afterEach(() => {
   pathname.value = "/";
 });
 
-test("nav shows only Home and Projects", () => {
+test("nav shows only Home and Works", () => {
   render(<Header />);
   const links = within(screen.getByRole("navigation")).getAllByRole("link");
-  expect(links.map((l) => l.textContent)).toEqual(["Home", "Projects"]);
+  expect(links.map((l) => l.textContent)).toEqual(["Home", "Works"]);
 });
 
 test("nav adds Writings once a Writing exists", () => {
@@ -29,7 +29,7 @@ test("nav adds Writings once a Writing exists", () => {
   const links = within(screen.getByRole("navigation")).getAllByRole("link");
   expect(links.map((l) => [l.textContent, l.getAttribute("href")])).toEqual([
     ["Home", "/"],
-    ["Projects", "/projects"],
+    ["Works", "/works"],
     ["Writings", "/writings"],
   ]);
 });
@@ -51,10 +51,10 @@ test("header has no logo", () => {
 });
 
 test("nav marks the current page", () => {
-  pathname.value = "/projects";
+  pathname.value = "/works";
   render(<Header />);
   expect(
-    screen.getByRole("link", { name: "Projects" }).getAttribute("aria-current"),
+    screen.getByRole("link", { name: "Works" }).getAttribute("aria-current"),
   ).toBe("page");
   expect(
     screen.getByRole("link", { name: "Home" }).getAttribute("aria-current"),

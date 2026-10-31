@@ -5,7 +5,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
 import Home from "@/app/page";
 import { getWritings } from "@/lib/writings-source";
-import ProjectsPage from "@/app/projects/page";
+import WorksPage from "@/app/works/page";
 import { mockMatchMedia } from "../vitest.setup";
 
 const motionPref = vi.hoisted(() => ({ reduce: true }));
@@ -21,7 +21,7 @@ afterEach(cleanup);
 
 test.each([
   ["Home", async () => await Home(), "Hi, I'm Fitz."],
-  ["Projects", async () => ProjectsPage(), "Projects"],
+  ["Works", async () => WorksPage(), "Works"],
 ])(
   "%s with reduced motion shows the title and content immediately",
   async (_name, page, title) => {

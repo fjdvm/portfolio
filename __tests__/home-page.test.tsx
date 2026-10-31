@@ -69,9 +69,9 @@ test("intro states the Owner's work and interests, with no draft note", async ()
   expect(screen.queryByText(/draft/i)).toBeNull();
 });
 
-test("selected projects list CREOMS, AGAPAI, INGAT Remit in order with Covers and an All projects link", async () => {
+test("selected works list CREOMS, AGAPAI, INGAT Remit in order with Covers and an All works link", async () => {
   render(await Home());
-  const section = screen.getByRole("region", { name: "Selected projects" });
+  const section = screen.getByRole("region", { name: "Selected works" });
   const rows = within(section).getAllByRole("listitem");
   expect(rows.map((r) => r.querySelector("h3")?.textContent)).toEqual([
     "CREOMS",
@@ -90,9 +90,9 @@ test("selected projects list CREOMS, AGAPAI, INGAT Remit in order with Covers an
   ).toBeDefined();
   expect(
     within(section)
-      .getByRole("link", { name: /All projects/ })
+      .getByRole("link", { name: /All works/ })
       .getAttribute("href"),
-  ).toBe("/projects");
+  ).toBe("/works");
 });
 
 test("events lists exactly PUP Hackathon 2026 and Stellar APAC Hackathon", async () => {
@@ -143,9 +143,9 @@ test("hero photo with caption shows only when enabled", async () => {
   expect(screen.getAllByText("Photo: RISFI").length).toBe(2);
 });
 
-test("photo project rows show their credit; CREOMS has none", async () => {
+test("photo work rows show their credit; CREOMS has none", async () => {
   render(await Home());
-  const section = screen.getByRole("region", { name: "Selected projects" });
+  const section = screen.getByRole("region", { name: "Selected works" });
   const rows = within(section).getAllByRole("listitem");
   expect(within(rows[0]).queryByText(/Photo:/)).toBeNull();
   expect(within(rows[1]).getByText("Photo: RISFI")).toBeDefined();
@@ -161,9 +161,9 @@ async function eventPhotos() {
 test("events show the three photos in order, before the rows", async () => {
   const { section, photos } = await eventPhotos();
   expect(photos.map((p) => p.getAttribute("src"))).toEqual([
-    "/images/projects/AGAPAI_Most_Innovative.jpg",
-    "/images/projects/AGAPAI_Champion.jpg",
-    "/images/projects/INGAT_Stellar.jpg",
+    "/images/works/AGAPAI_Most_Innovative.jpg",
+    "/images/works/AGAPAI_Champion.jpg",
+    "/images/works/INGAT_Stellar.jpg",
   ]);
   const firstRow = within(section).getAllByRole("listitem")[0];
   expect(

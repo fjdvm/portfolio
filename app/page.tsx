@@ -1,8 +1,8 @@
 import AnimatedContent from "@/components/ui/animated-content";
 import BlurText from "@/components/ui/blur-text";
-import { ProjectCover } from "@/components/ui/project-cover";
+import { WorkCover } from "@/components/ui/work-cover";
 import Link from "next/link";
-import { events, projects, selectedProjects } from "@/lib/projects";
+import { events, works, selectedWorks } from "@/lib/works";
 import { site } from "@/lib/site";
 import EventPhotos from "@/components/ui/event-photos";
 import { AwardBadge } from "@/components/ui/award-badge";
@@ -58,7 +58,7 @@ const glance: { label: string; badge?: string; value: string }[] = [
   },
 ];
 
-const hero = projects.find((p) => p.title === "AGAPAI")!;
+const hero = works.find((p) => p.title === "AGAPAI")!;
 
 export default async function Home() {
   const [latest, ...older] = await getWritings();
@@ -84,7 +84,7 @@ export default async function Home() {
       {site.showHeroPhoto && (
         <AnimatedContent distance={24} className="mt-9">
           <figure>
-            <ProjectCover project={hero} size="hero" showCredit={false} />
+            <WorkCover work={hero} size="hero" showCredit={false} />
             <figcaption className="mt-2.5 flex flex-wrap justify-between gap-x-4 font-mono text-xs leading-[normal] text-faint">
               <span>PUP Hackathon 2026 · Team AI Did It</span>
               <span>
@@ -122,41 +122,41 @@ export default async function Home() {
       </AnimatedContent>
 
       <AnimatedContent distance={24} className="mt-16">
-        <section aria-labelledby="selected-projects">
-          <SectionHeader id="selected-projects" title="Selected projects">
+        <section aria-labelledby="selected-works">
+          <SectionHeader id="selected-works" title="Selected works">
             <Link
-              href="/projects"
+              href="/works"
               className="text-[13px] leading-[normal] text-muted"
             >
-              All projects →
+              All works →
             </Link>
           </SectionHeader>
           <ul className="mt-2 [&>li:nth-child(2)]:border-b">
-            {selectedProjects.map((project) => (
+            {selectedWorks.map((work) => (
               <li
-                key={project.title}
+                key={work.title}
                 className="flex items-center gap-4 border-line py-3.5"
               >
-                <ProjectCover
-                  project={project}
+                <WorkCover
+                  work={work}
                   size="thumb"
                   showCredit={false}
                 />
                 <div className="min-w-0 flex-1">
                   <h3 className="font-medium leading-[normal] text-ink">
-                    {project.title}
+                    {work.title}
                   </h3>
                   <p className="mt-[3px] line-clamp-2 text-sm leading-5 text-muted">
-                    {project.summary}
+                    {work.summary}
                   </p>
-                  {project.cover.kind === "photo" && (
+                  {work.cover.kind === "photo" && (
                     <p className="mt-[3px] font-mono text-[11px] leading-[normal] text-faint">
-                      Photo: {project.cover.credit}
+                      Photo: {work.cover.credit}
                     </p>
                   )}
                 </div>
                 <time className="font-mono text-[13px] leading-[normal] text-faint">
-                  {project.year}
+                  {work.year}
                 </time>
               </li>
             ))}

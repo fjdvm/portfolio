@@ -6,7 +6,7 @@ export const site = {
   showHeroPhoto: false,
   nav: [
     { href: "/", label: "Home" },
-    { href: "/projects", label: "Projects" },
+    { href: "/works", label: "Works" },
   ],
   links: [
     { label: "GitHub", href: "https://github.com/fjdvm" },
