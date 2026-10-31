@@ -14,3 +14,16 @@ export function mockMatchMedia(reduce: boolean) {
 }
 
 mockMatchMedia(true);
+
+// jsdom has no observers; the Award badge's StarBorder and ShinyText use them.
+class NoopObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords() {
+    return [];
+  }
+}
+window.IntersectionObserver ??=
+  NoopObserver as unknown as typeof IntersectionObserver;
+window.ResizeObserver ??= NoopObserver as unknown as typeof ResizeObserver;

@@ -1,23 +1,25 @@
 import type { Project } from "@/lib/projects";
 import { ProjectCover } from "./project-cover";
-import { WinnerBadge } from "./winner-badge";
+import { AwardBadge } from "./award-badge";
 
 export function ProjectCard({ project }: { project: Project }) {
   // Photo covers carry a credit caption below the image; keep the badge on the image.
   const badgeClass = `absolute right-3.5 ${project.cover.kind === "photo" ? "bottom-9" : "bottom-3.5"}`;
   return (
-    <article className="flex flex-col gap-3">
+    <article className="flex flex-col gap-3 overflow-x-clip">
       <div className="relative">
         <ProjectCover project={project} />
         {project.badge && (
-          <WinnerBadge label={project.badge} className={badgeClass} />
+          <div className={badgeClass}>
+            <AwardBadge label={project.badge} />
+          </div>
         )}
         {project.status && (
-          <WinnerBadge
-            label={project.status}
-            icon={false}
-            className={badgeClass}
-          />
+          <span
+            className={`${badgeClass} rounded-full bg-paper py-[3px] pl-[7px] pr-[9px] text-xs font-medium leading-[normal] text-ink`}
+          >
+            {project.status}
+          </span>
         )}
       </div>
       <div className="flex items-baseline justify-between gap-4">
