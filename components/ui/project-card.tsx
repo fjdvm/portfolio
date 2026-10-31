@@ -10,10 +10,7 @@ export function ProjectCard({ project }: { project: Project }) {
       <div className="relative">
         <ProjectCover project={project} />
         {project.badge && (
-          <WinnerBadge
-            label={project.badge}
-            className={badgeClass}
-          />
+          <WinnerBadge label={project.badge} className={badgeClass} />
         )}
         {project.status && (
           <WinnerBadge
@@ -32,38 +29,36 @@ export function ProjectCard({ project }: { project: Project }) {
         </span>
       </div>
       <p className="text-sm leading-[21px] text-muted">{project.summary}</p>
-      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-        <ul className="flex flex-wrap gap-1.5">
-          {project.tags.map((tag) => (
-            <li
-              key={tag}
-              className="rounded-full border border-line px-2 py-0.5 font-mono text-xs leading-[normal] text-muted"
+      <ul className="flex flex-wrap gap-1.5">
+        {project.tags.map((tag) => (
+          <li
+            key={tag}
+            className="rounded-full border border-line px-2 py-0.5 font-mono text-xs leading-[normal] text-muted"
+          >
+            {tag}
+          </li>
+        ))}
+      </ul>
+      {(project.liveUrl || project.codeUrl) && (
+        <div className="mt-auto flex gap-3.5 pt-1 text-[13px] leading-[normal] text-ink">
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              className="underline after:content-['_↗']"
             >
-              {tag}
-            </li>
-          ))}
-        </ul>
-        {(project.liveUrl || project.codeUrl) && (
-          <div className="flex gap-3.5 text-[13px] leading-[normal] text-ink">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                className="underline after:content-['_↗']"
-              >
-                Live
-              </a>
-            )}
-            {project.codeUrl && (
-              <a
-                href={project.codeUrl}
-                className="underline after:content-['_↗']"
-              >
-                Code
-              </a>
-            )}
-          </div>
-        )}
-      </div>
+              Live
+            </a>
+          )}
+          {project.codeUrl && (
+            <a
+              href={project.codeUrl}
+              className="underline after:content-['_↗']"
+            >
+              Code
+            </a>
+          )}
+        </div>
+      )}
     </article>
   );
 }
