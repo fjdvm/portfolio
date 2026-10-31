@@ -1,3 +1,4 @@
+import { feedPath } from "@/lib/writings";
 import { site } from "@/lib/site";
 
 export function Footer({ showRss = false }: { showRss?: boolean }) {
@@ -9,7 +10,7 @@ export function Footer({ showRss = false }: { showRss?: boolean }) {
           <ul className="flex gap-5 text-muted">
             {showRss && (
               <li>
-                <a href="/writings/feed.xml" className="hover:underline">
+                <a href={feedPath} className="hover:underline">
                   RSS
                 </a>
               </li>

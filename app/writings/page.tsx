@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import AnimatedContent from "@/components/ui/animated-content";
 import BlurText from "@/components/ui/blur-text";
 import { FeaturedEssay, WritingRow } from "@/components/ui/writing-views";
-import { groupByYear } from "@/lib/writings";
+import { feedPath, groupByYear } from "@/lib/writings";
 import { getWritings } from "@/lib/writings-source";
 
 export const metadata: Metadata = { title: "Writings" };
@@ -24,7 +24,7 @@ export default async function WritingsPage() {
           className="font-serif text-[44px] leading-[52px] tracking-[-0.66px]"
         />
         <a
-          href="/writings/feed.xml"
+          href={feedPath}
           className="text-sm leading-[normal] text-muted underline"
         >
           RSS feed

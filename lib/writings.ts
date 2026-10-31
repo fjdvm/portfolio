@@ -46,3 +46,5 @@ export function groupByYear(writings: Writing[]) {
   }
   return groups;
 }
+
+export const feedPath = "/writings/feed.xml";
