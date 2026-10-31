@@ -6,6 +6,9 @@ import { events, projects, selectedProjects } from "@/lib/projects";
 import { site } from "@/lib/site";
 import EventPhotos from "@/components/ui/event-photos";
 import { AwardBadge } from "@/components/ui/award-badge";
+import { WritingRow } from "@/components/ui/writing-views";
+import { formatDate } from "@/lib/writings";
+import { getWritings } from "@/lib/writings-source";
 
 function SectionHeader({
   id,
@@ -57,7 +60,9 @@ const glance: { label: string; badge?: string; value: string }[] = [
 
 const hero = projects.find((p) => p.title === "AGAPAI")!;
 
-export default function Home() {
+export default async function Home() {
+  const [latest, ...older] = await getWritings();
+
   return (
     <section className="pt-[104px]">
       <BlurText
@@ -158,6 +163,42 @@ export default function Home() {
           </ul>
         </section>
       </AnimatedContent>
+
+      {latest && (
+        <AnimatedContent distance={24} className="mt-14">
+          <section aria-labelledby="recent-writings">
+            <SectionHeader id="recent-writings" title="Recent writings">
+              <Link
+                href="/writings"
+                className="text-[13px] leading-[normal] text-muted"
+              >
+                All writings →
+              </Link>
+            </SectionHeader>
+            <Link href={`/writings/${latest.slug}`} className="mt-5 block">
+              <time
+                dateTime={latest.date}
+                className="block font-mono text-[13px] leading-[normal] text-faint"
+              >
+                {formatDate(latest.date)}
+              </time>
+              <h3 className="mt-1.5 font-serif text-2xl font-medium leading-8 tracking-[-0.12px] text-ink">
+                {latest.title}
+              </h3>
+              <p className="mt-2 text-[15px] leading-6 text-ink2">
+                {latest.summary}
+              </p>
+            </Link>
+            <ul className="mt-3.5">
+              {older.slice(0, 3).map((writing) => (
+                <li key={writing.slug}>
+                  <WritingRow writing={writing} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        </AnimatedContent>
+      )}
 
       <AnimatedContent distance={24} className="mt-14">
         <section aria-labelledby="events">
