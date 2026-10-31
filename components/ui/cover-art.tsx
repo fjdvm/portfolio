@@ -13,9 +13,10 @@ const INK = "#1d1d1f";
 const PAPER = "#f5f5f7";
 const PATTERN_GROUND = "#e8e8ed";
 
-export type CoverArtSize = "card" | "thumb";
+export type CoverArtSize = "hero" | "card" | "thumb";
 
 const SIZES = {
+  hero: { sizes: "(min-width: 768px) 720px, 100vw", cell: 7, reveal: 100, spacing: 9 },
   card: { sizes: "(min-width: 768px) 50vw, 100vw", cell: 7, reveal: 100, spacing: 9 },
   thumb: { sizes: "56px", cell: 3, reveal: 28, spacing: 5 },
 } satisfies Record<CoverArtSize, object>;

@@ -7,12 +7,16 @@ export function ProjectCover({
   showCredit = true,
 }: {
   project: Project;
-  size?: "card" | "thumb";
+  size?: "hero" | "card" | "thumb";
   showCredit?: boolean;
 }) {
   const { cover } = project;
   const thumb = size === "thumb";
-  const box = thumb ? "size-14 rounded-lg" : "aspect-[348/216] rounded-xl";
+  const box = thumb
+    ? "size-14 rounded-lg"
+    : size === "hero"
+      ? "h-[340px] rounded-[14px]"
+      : "aspect-[348/216] rounded-xl";
 
   if (cover.kind === "photo") {
     return (
