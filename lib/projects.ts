@@ -69,3 +69,26 @@ export const projects: Project[] = [
     codeUrl: "https://github.com/fjdvm/pace",
   },
 ];
+
+export const selectedProjects = ["CREOMS", "AGAPAI", "INGAT Remit"].map(
+  (title) => projects.find((p) => p.title === title)!,
+);
+
+export type CommunityEvent = {
+  title: string;
+  date: string;
+  detail: string;
+};
+
+export const events: CommunityEvent[] = [
+  {
+    title: "PUP Hackathon 2026",
+    date: "Oct 2026",
+    detail: "Champion and Most Innovative Prototype · AGAPAI",
+  },
+  {
+    title: "Stellar APAC Hackathon",
+    date: "2026",
+    detail: "INGAT Remit",
+  },
+];

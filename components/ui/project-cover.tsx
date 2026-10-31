@@ -1,23 +1,36 @@
 import Image from "next/image";
 import type { Project } from "@/lib/projects";
 
-export function ProjectCover({ project }: { project: Project }) {
+export function ProjectCover({
+  project,
+  size = "card",
+}: {
+  project: Project;
+  size?: "card" | "thumb";
+}) {
   const { cover } = project;
+  const thumb = size === "thumb";
 
   if (cover.kind === "photo") {
     return (
-      <figure className="mb-3">
-        <div className="relative aspect-video overflow-hidden rounded-md">
+      <figure className={thumb ? "size-14 shrink-0" : "mb-3"}>
+        <div
+          className={`relative overflow-hidden ${thumb ? "size-14 rounded-lg" : "aspect-video rounded-md"}`}
+        >
           <Image
             src={cover.src}
             alt={cover.alt}
             fill
-            sizes="(min-width: 768px) 50vw, 100vw"
+            sizes={thumb ? "56px" : "(min-width: 768px) 50vw, 100vw"}
             className="object-cover"
             style={{ objectPosition: cover.position }}
           />
         </div>
-        <figcaption className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+        <figcaption
+          className={
+            thumb ? "sr-only" : "mt-1 text-xs text-zinc-600 dark:text-zinc-400"
+          }
+        >
           Photo: {cover.credit}
         </figcaption>
       </figure>
@@ -28,7 +41,9 @@ export function ProjectCover({ project }: { project: Project }) {
     <div
       data-testid="cover-pattern"
       aria-hidden="true"
-      className="mb-3 aspect-video rounded-md"
+      className={
+        thumb ? "size-14 shrink-0 rounded-lg" : "mb-3 aspect-video rounded-md"
+      }
       style={{
         color: cover.color,
         backgroundColor: "color-mix(in srgb, currentColor 8%, transparent)",

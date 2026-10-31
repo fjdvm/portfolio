@@ -38,3 +38,36 @@ test("intro is flagged for the Owner's review", () => {
   render(<Home />);
   expect(screen.getByText(/draft.*owner to review/i)).toBeDefined();
 });
+
+test("selected projects list CREOMS, AGAPAI, INGAT Remit in order with Covers and an All projects link", () => {
+  render(<Home />);
+  const section = screen.getByRole("region", { name: "Selected projects" });
+  const rows = within(section).getAllByRole("listitem");
+  expect(rows.map((r) => r.querySelector("h3")?.textContent)).toEqual([
+    "CREOMS",
+    "AGAPAI",
+    "INGAT Remit",
+  ]);
+  expect(rows.map((r) => r.querySelector("time")?.textContent)).toEqual(["2026", "2026", "2026"]);
+  expect(within(rows[0]).getByTestId("cover-pattern")).toBeDefined();
+  expect(within(rows[1]).getByRole("img", { name: /Champion/ })).toBeDefined();
+  expect(within(rows[2]).getByRole("img", { name: /Stellar APAC/ })).toBeDefined();
+  expect(
+    within(section).getByRole("link", { name: /All projects/ }).getAttribute("href"),
+  ).toBe("/projects");
+});
+
+test("events lists exactly PUP Hackathon 2026 and Stellar APAC Hackathon", () => {
+  render(<Home />);
+  const section = screen.getByRole("region", { name: "Events & community" });
+  const rows = within(section).getAllByRole("listitem");
+  expect(rows.map((r) => r.textContent)).toEqual([
+    "Oct 2026PUP Hackathon 2026Champion and Most Innovative Prototype · AGAPAI",
+    "2026Stellar APAC HackathonINGAT Remit",
+  ]);
+});
+
+test("has no Writings section or link", () => {
+  render(<Home />);
+  expect(screen.queryByText(/writings?/i)).toBeNull();
+});
