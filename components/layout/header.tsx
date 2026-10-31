@@ -10,7 +10,7 @@ export function Header() {
   return (
     <header>
       <nav aria-label="Main" className="mx-auto max-w-3xl px-6 pt-12">
-        <ul className="flex gap-7 text-[15px] leading-[normal]">
+        <ul className="flex justify-end gap-7 text-[15px] leading-[normal]">
           {site.nav.map((item) => {
             const active = item.href === pathname;
             return (

@@ -61,16 +61,10 @@ export default function Home() {
       <p className="mt-5 text-lg leading-[30px] text-ink2">
         I&apos;m a PUP student who builds web and mobile apps and small tools. I
         lead development of a client system, and I&apos;m growing more
-        interested in AI, cloud, and backend engineering.
+        interested in AI, cloud, and backend engineering. You can also find me
+        on <ContactLink label="LinkedIn" />, <ContactLink label="GitHub" />, or
+        send me an <ContactLink label="Email" text="email" />.
       </p>
-      <nav
-        aria-label="Elsewhere"
-        className="mt-5 text-[15px] leading-[normal] text-ink"
-      >
-        You can also find me on <ContactLink label="LinkedIn" />,{" "}
-        <ContactLink label="GitHub" />, or send me an{" "}
-        <ContactLink label="Email" text="email" />.
-      </nav>
       <div
         role="group"
         aria-label="At a glance"
