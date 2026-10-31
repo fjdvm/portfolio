@@ -83,11 +83,12 @@ test("summaries state the Owner's role and the award", () => {
   ).toBeDefined();
 });
 
-test("AGAPAI and INGAT Remit show a photo Cover with credit and no pattern", () => {
+test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no pattern", () => {
   render(<ProjectsPage />);
   const expected: Record<string, string> = {
     AGAPAI: "RISFI",
     "INGAT Remit": "Rise In and Stellar",
+    PACE: "PACE",
   };
   for (const [title, credit] of Object.entries(expected)) {
     const c = card(title);
@@ -97,9 +98,9 @@ test("AGAPAI and INGAT Remit show a photo Cover with credit and no pattern", () 
   }
 });
 
-test("CREOMS and PACE show the dot pattern and no photo or credit", () => {
+test("CREOMS shows the dot pattern and no photo or credit", () => {
   render(<ProjectsPage />);
-  for (const title of ["CREOMS", "PACE"]) {
+  for (const title of ["CREOMS"]) {
     const c = card(title);
     expect(c.getByTestId("cover-pattern")).toBeDefined();
     expect(c.queryByRole("img")).toBeNull();
