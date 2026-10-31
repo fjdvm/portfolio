@@ -11,18 +11,18 @@ Fitz, a student at the Polytechnic University of the Philippines (expected gradu
 Recruiters and hiring managers evaluating the Owner for tech roles.
 _Avoid_: visitors, users
 
-**Project**:
+**Work**:
 A piece of tech work the Owner shows, with a title, year, summary, stack tags, and optional live link.
 _Avoid_: repo, app
 
 **Cover**:
-The image on a Project card. A photo when one exists, otherwise a slowly drifting dot pattern with the Project title in a white label.
+The image on a Work card. A photo when one exists, otherwise a slowly drifting dot pattern with the Work title in a white label.
 
 **Category**:
-A label on a Project (Web, Mobile, Hackathon, Research) that the Projects page filters by. A Project can have more than one.
+A label on a Work (Web, Mobile, Hackathon, Research) that the Works page filters by. A Work can have more than one.
 
 **Award badge**:
-The mark on a Project or Highlight that won something. Used only for wins and awards, never as a generic tag.
+The mark on a Work or Highlight that won something. Used only for wins and awards, never as a generic tag.
 
 **Writing**:
 An essay by the Owner, written as an MDX file in `content/writings/` (exporting `meta`: title, date, summary, tags, reading time), shown in the Writings index and on its own page. Writings are hidden from the site until a real one exists.
@@ -50,5 +50,5 @@ Split-remittance app for OFWs on Stellar, built for the Stellar APAC Hackathon 2
 - The portfolio shows tech work only; the Owner's art is out of scope.
 - Writings are hidden until the Owner has a first essay, including their route, RSS feed, nav link, footer RSS link and the Home "Recent writings" section. They appear automatically once a Writing exists.
 - Colour comes from photos; the interface itself stays neutral.
-- Only Event photos show in full colour at rest; Project and Writing images stay muted until the Audience interacts.
+- Only Event photos show in full colour at rest; Work and Writing images stay muted until the Audience interacts.
 - Photos carry credit to their source (RISFI, Rise In and Stellar).

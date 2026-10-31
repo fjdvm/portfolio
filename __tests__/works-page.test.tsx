@@ -1,6 +1,6 @@
 import { afterEach, expect, test, vi } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
-import ProjectsPage from "@/app/projects/page";
+import WorksPage from "@/app/works/page";
 
 // jsdom has no WebGL; PatternWaves renders its canvas through ogl.
 vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
@@ -18,7 +18,7 @@ function card(title: string) {
 }
 
 test("shows the intro line", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   expect(
     screen.getByText(
       "Things I've built for class, for hackathons, and for fun. Most are small; a few are still going.",
@@ -26,14 +26,14 @@ test("shows the intro line", () => {
   ).toBeDefined();
 });
 
-test("lists the four Projects in order", () => {
-  render(<ProjectsPage />);
+test("lists the four Works in order", () => {
+  render(<WorksPage />);
   const titles = cards().map((c) => within(c).getByRole("heading").textContent);
   expect(titles).toEqual(["AGAPAI", "INGAT Remit", "PACE", "CREOMS"]);
 });
 
 test("each card shows year, summary and stack tags", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   const expected: Record<string, string[]> = {
     CREOMS: ["web", "client"],
     AGAPAI: ["mobile", "offline-first"],
@@ -48,14 +48,14 @@ test("each card shows year, summary and stack tags", () => {
 });
 
 test("CREOMS shows no status and no links", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   const c = card("CREOMS");
   expect(c.queryByText(/Launching/)).toBeNull();
   expect(c.queryAllByRole("link")).toHaveLength(0);
 });
 
 test("AGAPAI and INGAT Remit link Live only", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   for (const title of ["AGAPAI", "INGAT Remit"]) {
     const links = card(title).getAllByRole("link");
     expect(links.map((l) => l.textContent)).toEqual(["Live"]);
@@ -63,23 +63,23 @@ test("AGAPAI and INGAT Remit link Live only", () => {
 });
 
 test("PACE links Live and Code", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   const links = card("PACE").getAllByRole("link");
   expect(links.map((l) => l.textContent)).toEqual(["Live", "Code"]);
 });
 
 test("never names the client", () => {
-  const { container } = render(<ProjectsPage />);
+  const { container } = render(<WorksPage />);
   expect(container.textContent).not.toMatch(/bren\s*raphael/i);
 });
 
 test("has no filter chips", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   expect(screen.queryByRole("button")).toBeNull();
 });
 
 test("summaries state the Owner's role and the award", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   expect(card("CREOMS").getByText(/I lead its development/)).toBeDefined();
   expect(
     card("AGAPAI").getByText(
@@ -89,7 +89,7 @@ test("summaries state the Owner's role and the award", () => {
 });
 
 test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no pattern", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   const expected: Record<string, string> = {
     AGAPAI: "RISFI",
     "INGAT Remit": "Rise In and Stellar",
@@ -104,7 +104,7 @@ test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no patter
 });
 
 test("CREOMS shows the dot pattern and no photo or credit", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   for (const title of ["CREOMS"]) {
     const c = card(title);
     expect(c.getByTestId("cover-pattern")).toBeDefined();
@@ -114,20 +114,20 @@ test("CREOMS shows the dot pattern and no photo or credit", () => {
 });
 
 test("AGAPAI Cover carries the Award badge, others do not", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   expect(card("AGAPAI").getByText("Winner · PUP Hackathon 2026")).toBeDefined();
   expect(card("PACE").queryByText(/^Winner/)).toBeNull();
 });
 
 test("under reduced motion, photo Covers show the unprocessed image with alt text", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   const img = card("AGAPAI").getByRole("img");
   expect(img.tagName).toBe("IMG");
   expect(img.getAttribute("alt")).toMatch(/Champion and Most Innovative/);
 });
 
 test("CREOMS pattern Cover carries the title in a label", () => {
-  render(<ProjectsPage />);
+  render(<WorksPage />);
   const pattern = card("CREOMS").getByTestId("cover-pattern");
   expect(pattern.textContent).toBe("CREOMS");
 });

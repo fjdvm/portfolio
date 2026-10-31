@@ -10,18 +10,18 @@ import BounceCards from "./bounce-cards";
 const cards = [
   {
     transform: "rotate(-9deg) translate(-112.75px, -2.34px)",
-    src: "/images/projects/AGAPAI_Most_Innovative.jpg",
+    src: "/images/works/AGAPAI_Most_Innovative.jpg",
     alt: "Team AI Did It with the Most Innovative Prototype plaque at PUP Hackathon 2026. Photo: RISFI",
   },
   {
     transform: "rotate(0deg) translate(0px, -10px)",
-    src: "/images/projects/AGAPAI_Champion.jpg",
+    src: "/images/works/AGAPAI_Champion.jpg",
     alt: "Team AI Did It holding the Champion and Most Innovative Prototype plaques. Photo: RISFI",
     position: "center 5%",
   },
   {
     transform: "rotate(9deg) translate(120.66px, -3.75px)",
-    src: "/images/projects/INGAT_Stellar.jpg",
+    src: "/images/works/INGAT_Stellar.jpg",
     alt: "Participants at the Stellar APAC Hackathon 2026 in Manila. Photo: Rise In and Stellar",
   },
 ];

@@ -11,7 +11,7 @@ export type Cover =
 export const categories = ["Web", "Mobile", "Hackathon", "Research"] as const;
 export type Category = (typeof categories)[number];
 
-export type Project = {
+export type Work = {
   cover: Cover;
   title: string;
   year: number;
@@ -23,12 +23,12 @@ export type Project = {
   codeUrl?: string;
 };
 
-export const projects: Project[] = [
+export const works: Work[] = [
   {
     title: "AGAPAI",
     cover: {
       kind: "photo",
-      src: "/images/projects/AGAPAI_Champion.jpg",
+      src: "/images/works/AGAPAI_Champion.jpg",
       alt: "Team AI Did It holding the Champion and Most Innovative Prototype plaques",
       credit: "RISFI",
       position: "center 5%",
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     title: "INGAT Remit",
     cover: {
       kind: "photo",
-      src: "/images/projects/INGAT_Stellar.jpg",
+      src: "/images/works/INGAT_Stellar.jpg",
       alt: "Participants at the Stellar APAC Hackathon 2026 in Manila",
       credit: "Rise In and Stellar",
     },
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     title: "PACE",
     cover: {
       kind: "photo",
-      src: "/images/projects/PACE_project.png",
+      src: "/images/works/PACE_work.png",
       alt: "The PACE landing page: Hints, not answers",
       credit: "PACE",
       position: "top",
@@ -84,8 +84,8 @@ export const projects: Project[] = [
   },
 ];
 
-export const selectedProjects = ["CREOMS", "AGAPAI", "INGAT Remit"].map(
-  (title) => projects.find((p) => p.title === title)!,
+export const selectedWorks = ["CREOMS", "AGAPAI", "INGAT Remit"].map(
+  (title) => works.find((p) => p.title === title)!,
 );
 
 export type CommunityEvent = {
