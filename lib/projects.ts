@@ -37,7 +37,7 @@ export const projects: Project[] = [
       src: "/images/projects/AGAPAI_Champion.jpg",
       alt: "Team AI Did It holding the Champion and Most Innovative Prototype plaques",
       credit: "RISFI",
-      position: "center 30%",
+      position: "center 18%",
     },
     year: 2026,
     badge: "Winner · PUP Hackathon 2026",

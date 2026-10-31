@@ -109,10 +109,13 @@ test("CREOMS shows the dot pattern and no photo or credit", () => {
   }
 });
 
-test("AGAPAI Cover carries the winner badge, others do not", () => {
+test("AGAPAI Cover carries the Award badge, others do not", () => {
   render(<ProjectsPage />);
   expect(card("AGAPAI").getByText("Winner · PUP Hackathon 2026")).toBeDefined();
   expect(card("PACE").queryByText(/^Winner/)).toBeNull();
+  // Launch status is not an award, so it gets no star border.
+  const status = card("CREOMS").getByText("Launching Nov 2026");
+  expect(status.querySelector("canvas")).toBeNull();
 });
 
 test("under reduced motion, photo Covers show the unprocessed image with alt text", () => {

@@ -4,7 +4,7 @@ import { ProjectCover } from "@/components/ui/project-cover";
 import Link from "next/link";
 import { events, selectedProjects } from "@/lib/projects";
 import { site } from "@/lib/site";
-import { WinnerBadge } from "@/components/ui/winner-badge";
+import { AwardBadge } from "@/components/ui/award-badge";
 
 function SectionHeader({
   id,
@@ -77,7 +77,7 @@ export default function Home() {
         <div
           role="group"
           aria-label="At a glance"
-          className="rounded-xl border border-line bg-surface px-5 py-[18px]"
+          className="overflow-x-clip rounded-xl border border-line bg-surface px-5 py-[18px]"
         >
           <dl className="flex flex-col gap-3.5">
             {glance.map((row) => (
@@ -86,7 +86,7 @@ export default function Home() {
                   {row.label}
                 </dt>
                 <dd className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[15px] leading-[normal] text-ink2">
-                  {row.badge && <WinnerBadge label={row.badge} />}
+                  {row.badge && <AwardBadge label={row.badge} />}
                   {row.value}
                 </dd>
               </div>

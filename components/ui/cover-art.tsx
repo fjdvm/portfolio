@@ -64,6 +64,7 @@ export function PhotoArt({
     <div role="img" aria-label={alt} className="size-full">
       <HalftoneReveal
         src={src}
+        mode="color"
         cellSize={cell}
         angle={45}
         inkColor={INK}
