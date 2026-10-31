@@ -54,7 +54,13 @@ export const projects: Project[] = [
   },
   {
     title: "PACE",
-    cover: { kind: "pattern", color: "#7c3aed" },
+    cover: {
+      kind: "photo",
+      src: "/images/projects/PACE_project.png",
+      alt: "The PACE landing page: Hints, not answers",
+      credit: "PACE",
+      position: "top",
+    },
     year: 2026,
     summary:
       "Pair-programming AI Coding Environment, a hint-only AI tutor research prototype from PUP students.",
