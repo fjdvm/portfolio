@@ -11,19 +11,19 @@ test("shows the heading", () => {
   ).toBeDefined();
 });
 
-test("invites contact as a sentence linking LinkedIn, GitHub and email, with no résumé link", () => {
+test("intro is one paragraph that ends by linking LinkedIn, GitHub and email, with no résumé link", () => {
   render(<Home />);
-  const links = within(
-    screen.getByRole("navigation", { name: "Elsewhere" }),
-  ).getAllByRole("link");
+  const intro = screen.getByText(/I'm a PUP student/);
+  expect(intro.tagName).toBe("P");
+  expect(intro.textContent).toMatch(
+    /backend engineering\. You can also find me on LinkedIn, GitHub, or send me an email\.$/,
+  );
+  const links = within(intro).getAllByRole("link");
   expect(links.map((l) => [l.textContent, l.getAttribute("href")])).toEqual([
     ["LinkedIn", "https://www.linkedin.com/in/fitzmartin"],
     ["GitHub", "https://github.com/fjdvm"],
     ["email", "mailto:jude.nitram08@gmail.com"],
   ]);
-  expect(
-    screen.getByRole("navigation", { name: "Elsewhere" }).textContent,
-  ).toBe("You can also find me on LinkedIn, GitHub, or send me an email.");
   expect(screen.queryByText(/résumé|resume|cv/i)).toBeNull();
 });
 
@@ -48,7 +48,7 @@ test("intro states the Owner's work and interests, with no draft note", () => {
   render(<Home />);
   expect(
     screen.getByText(
-      "I'm a PUP student who builds web and mobile apps and small tools. I lead development of a client system, and I'm growing more interested in AI, cloud, and backend engineering.",
+      /^I'm a PUP student who builds web and mobile apps and small tools\. I lead development of a client system, and I'm growing more interested in AI, cloud, and backend engineering\./,
     ),
   ).toBeDefined();
   expect(screen.queryByText(/draft/i)).toBeNull();
