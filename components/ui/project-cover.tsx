@@ -1,5 +1,6 @@
 import type { Project } from "@/lib/projects";
 import { PatternArt, PhotoArt } from "./cover-art";
+import StarBorder from "./star-border";
 
 export function ProjectCover({
   project,
@@ -17,6 +18,33 @@ export function ProjectCover({
     : size === "hero"
       ? "h-[340px] rounded-[14px]"
       : "aspect-[348/216] rounded-xl";
+
+  if (cover.kind === "photo" && size === "hero") {
+    // A star circles the frame, like the award badge; the photo itself stays still.
+    return (
+      <StarBorder
+        as="div"
+        theme="light"
+        color="#0a0a0a"
+        duration={6}
+        radius={14}
+        thickness={1}
+        glow={0}
+        hover="none"
+        clickPulse={false}
+        backgroundColor="#f5f5f7"
+        borderColor="#c7c7cc"
+        className={`!block !p-0 w-full overflow-hidden ${box}`}
+      >
+        <PhotoArt
+          src={cover.src}
+          alt={cover.alt}
+          position={cover.position}
+          size={size}
+        />
+      </StarBorder>
+    );
+  }
 
   if (cover.kind === "photo") {
     return (

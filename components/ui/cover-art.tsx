@@ -16,7 +16,8 @@ const PATTERN_GROUND = "#e8e8ed";
 export type CoverArtSize = "hero" | "card" | "thumb";
 
 const SIZES = {
-  hero: { sizes: "(min-width: 768px) 720px, 100vw", cell: 7, reveal: 100, spacing: 9 },
+  // The whole portrait is contained in the frame, so dots are finer and nothing reveals.
+  hero: { sizes: "(min-width: 768px) 720px, 100vw", cell: 4, reveal: 0, spacing: 9 },
   card: { sizes: "(min-width: 768px) 50vw, 100vw", cell: 7, reveal: 100, spacing: 9 },
   thumb: { sizes: "56px", cell: 3, reveal: 28, spacing: 5 },
 } satisfies Record<CoverArtSize, object>;
@@ -56,6 +57,7 @@ export function PhotoArt({
 }) {
   const reduceMotion = usePrefersReducedMotion();
   const { sizes, cell, reveal } = SIZES[size];
+  const hero = size === "hero";
 
   if (reduceMotion) {
     return (
@@ -64,7 +66,7 @@ export function PhotoArt({
         alt={alt}
         fill
         sizes={sizes}
-        className="object-cover"
+        className={hero ? "object-contain" : "object-cover"}
         style={{ objectPosition: position }}
       />
     );
@@ -73,6 +75,7 @@ export function PhotoArt({
     <div role="img" aria-label={alt} className="size-full">
       <HalftoneReveal
         src={src}
+        fit={hero ? "contain" : "cover"}
         focusY={focusYFrom(position)}
         mode="color"
         cellSize={cell}
@@ -81,6 +84,7 @@ export function PhotoArt({
         paperColor={PAPER}
         contrast={1.15}
         revealRadius={reveal}
+        clickBurst={!hero}
         intro={false}
       />
     </div>
