@@ -8,28 +8,22 @@ export type Cover =
     }
   | { kind: "pattern" };
 
+export const categories = ["Web", "Mobile", "Hackathon", "Research"] as const;
+export type Category = (typeof categories)[number];
+
 export type Project = {
   cover: Cover;
   title: string;
   year: number;
   summary: string;
+  categories: Category[];
   tags: string[];
-  status?: string;
   badge?: string;
   liveUrl?: string;
   codeUrl?: string;
 };
 
 export const projects: Project[] = [
-  {
-    title: "CREOMS",
-    cover: { kind: "pattern" },
-    year: 2026,
-    summary:
-      "Customer relationship and e-commerce ordering management system for a client. I lead its development.",
-    tags: ["next.js", "typescript", "neon"],
-    status: "Launching Nov 2026",
-  },
   {
     title: "AGAPAI",
     cover: {
@@ -43,7 +37,8 @@ export const projects: Project[] = [
     badge: "Winner · PUP Hackathon 2026",
     summary:
       "Offline-first injury first-aid app with a health-office dashboard. Champion and Most Innovative Prototype at PUP Hackathon 2026, built by a team of five with me as AI and lead developer.",
-    tags: ["react native", "next.js", "convex", "maplibre"],
+    categories: ["Mobile", "Hackathon"],
+    tags: ["mobile", "offline-first"],
     liveUrl: "https://agapai-web.vercel.app",
   },
   {
@@ -57,7 +52,8 @@ export const projects: Project[] = [
     year: 2026,
     summary:
       "Split-remittance app for OFWs on Stellar, built for the Stellar APAC Hackathon 2026.",
-    tags: ["next.js", "stellar", "soroban"],
+    categories: ["Web", "Hackathon"],
+    tags: ["stellar", "fintech"],
     liveUrl: "https://ingat-ten.vercel.app",
   },
   {
@@ -71,10 +67,20 @@ export const projects: Project[] = [
     },
     year: 2026,
     summary:
-      "Pair-programming AI Coding Environment, a hint-only AI tutor research prototype from PUP students.",
-    tags: ["next.js", "typescript", "supabase"],
+      "A coding workspace with an AI tutor that guides you instead of solving it for you. Undergraduate research.",
+    categories: ["Web", "Research"],
+    tags: ["ai", "research"],
     liveUrl: "https://pace-rnd.vercel.app",
     codeUrl: "https://github.com/fjdvm/pace",
+  },
+  {
+    title: "CREOMS",
+    cover: { kind: "pattern" },
+    year: 2026,
+    summary:
+      "Customer relationship and e-commerce ordering management system for a client. I lead its development.",
+    categories: ["Web"],
+    tags: ["web", "client"],
   },
 ];
 

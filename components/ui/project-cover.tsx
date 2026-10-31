@@ -4,9 +4,11 @@ import { PatternArt, PhotoArt } from "./cover-art";
 export function ProjectCover({
   project,
   size = "card",
+  showCredit = true,
 }: {
   project: Project;
   size?: "card" | "thumb";
+  showCredit?: boolean;
 }) {
   const { cover } = project;
   const thumb = size === "thumb";
@@ -23,9 +25,11 @@ export function ProjectCover({
             size={size}
           />
         </div>
-        <figcaption className={thumb ? "sr-only" : "mt-1 text-xs text-muted"}>
-          Photo: {cover.credit}
-        </figcaption>
+        {showCredit && (
+          <figcaption className={thumb ? "sr-only" : "mt-1 text-xs text-muted"}>
+            Photo: {cover.credit}
+          </figcaption>
+        )}
       </figure>
     );
   }

@@ -21,7 +21,7 @@ test("shows the intro line", () => {
   render(<ProjectsPage />);
   expect(
     screen.getByText(
-      "Things I've built for hackathons, research, and a real client.",
+      "Things I've built for class, for hackathons, and for fun. Most are small; a few are still going.",
     ),
   ).toBeDefined();
 });
@@ -29,16 +29,16 @@ test("shows the intro line", () => {
 test("lists the four Projects in order", () => {
   render(<ProjectsPage />);
   const titles = cards().map((c) => within(c).getByRole("heading").textContent);
-  expect(titles).toEqual(["CREOMS", "AGAPAI", "INGAT Remit", "PACE"]);
+  expect(titles).toEqual(["AGAPAI", "INGAT Remit", "PACE", "CREOMS"]);
 });
 
 test("each card shows year, summary and stack tags", () => {
   render(<ProjectsPage />);
   const expected: Record<string, string[]> = {
-    CREOMS: ["next.js", "typescript", "neon"],
-    AGAPAI: ["react native", "next.js", "convex", "maplibre"],
-    "INGAT Remit": ["next.js", "stellar", "soroban"],
-    PACE: ["next.js", "typescript", "supabase"],
+    CREOMS: ["web", "client"],
+    AGAPAI: ["mobile", "offline-first"],
+    "INGAT Remit": ["stellar", "fintech"],
+    PACE: ["ai", "research"],
   };
   for (const [title, tags] of Object.entries(expected)) {
     const c = card(title);
@@ -47,10 +47,10 @@ test("each card shows year, summary and stack tags", () => {
   }
 });
 
-test("CREOMS shows launch status and no links", () => {
+test("CREOMS shows no status and no links", () => {
   render(<ProjectsPage />);
   const c = card("CREOMS");
-  expect(c.getByText("Launching Nov 2026")).toBeDefined();
+  expect(c.queryByText(/Launching/)).toBeNull();
   expect(c.queryAllByRole("link")).toHaveLength(0);
 });
 
@@ -68,10 +68,14 @@ test("PACE links Live and Code", () => {
   expect(links.map((l) => l.textContent)).toEqual(["Live", "Code"]);
 });
 
-test("has no filter chips and never names the client", () => {
+test("never names the client", () => {
   const { container } = render(<ProjectsPage />);
-  expect(screen.queryByRole("button")).toBeNull();
   expect(container.textContent).not.toMatch(/bren\s*raphael/i);
+});
+
+test("has no filter chips", () => {
+  render(<ProjectsPage />);
+  expect(screen.queryByRole("button")).toBeNull();
 });
 
 test("summaries state the Owner's role and the award", () => {
@@ -113,9 +117,6 @@ test("AGAPAI Cover carries the Award badge, others do not", () => {
   render(<ProjectsPage />);
   expect(card("AGAPAI").getByText("Winner · PUP Hackathon 2026")).toBeDefined();
   expect(card("PACE").queryByText(/^Winner/)).toBeNull();
-  // Launch status is not an award, so it gets no star border.
-  const status = card("CREOMS").getByText("Launching Nov 2026");
-  expect(status.querySelector("canvas")).toBeNull();
 });
 
 test("under reduced motion, photo Covers show the unprocessed image with alt text", () => {
