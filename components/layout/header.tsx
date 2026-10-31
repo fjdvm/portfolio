@@ -42,7 +42,7 @@ export function Header() {
                     aria-current={active ? "page" : undefined}
                     className={
                       active
-                        ? "flex flex-col gap-[3px] font-medium text-ink after:h-[1.5px] after:bg-accent"
+                        ? "flex flex-col gap-[3px] font-medium text-ink after:h-[1.5px] after:bg-nav-active"
                         : "text-muted"
                     }
                   >

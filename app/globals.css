@@ -13,7 +13,8 @@
   --muted: #6e6e73;
   --faint: #86868b;
   --line: #d2d2d7;
-  --accent: #0071e3;
+  --nav-active: #0071e3;
+  --accent: var(--paper);
   --background: var(--paper);
   --foreground: var(--ink);
   --card: var(--surface);
@@ -25,7 +26,7 @@
   --secondary: var(--paper);
   --secondary-foreground: var(--ink);
   --muted-foreground: var(--muted);
-  --accent-foreground: var(--surface);
+  --accent-foreground: var(--ink);
   --destructive: oklch(0.577 0.245 27.325);
   --border: var(--line);
   --input: var(--line);
@@ -42,6 +43,7 @@
   --color-faint: var(--faint);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-nav-active: var(--nav-active);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
