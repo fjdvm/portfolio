@@ -1,6 +1,5 @@
 import Image from "next/image";
 import type { Project } from "@/lib/projects";
-import { WinnerBadge } from "./winner-badge";
 
 export function ProjectCover({
   project,
@@ -26,24 +25,16 @@ export function ProjectCover({
             className="object-cover"
             style={{ objectPosition: cover.position }}
           />
-          {!thumb && project.badge && (
-            <WinnerBadge
-              label={project.badge}
-              className="absolute left-3.5 top-3.5"
-            />
-          )}
         </div>
-        <figcaption
-          className={
-            thumb ? "sr-only" : "mt-1 text-xs text-muted"
-          }
-        >
+        <figcaption className={thumb ? "sr-only" : "mt-1 text-xs text-muted"}>
           Photo: {cover.credit}
         </figcaption>
       </figure>
     );
   }
 
+  const dot = thumb ? 2.5 : 5;
+  const grid = thumb ? 14 : 28;
   return (
     <div
       data-testid="cover-pattern"
@@ -54,11 +45,10 @@ export function ProjectCover({
           : "aspect-[348/216] rounded-[10px]"
       }
       style={{
-        color: cover.color,
-        backgroundColor: "color-mix(in srgb, currentColor 8%, transparent)",
-        backgroundImage:
-          "radial-gradient(circle, currentColor 1.5px, transparent 1.5px)",
-        backgroundSize: "16px 16px",
+        backgroundColor: `var(--${cover.color}soft)`,
+        backgroundImage: `radial-gradient(circle, var(--${cover.color}) ${dot}px, transparent ${dot + 0.5}px), radial-gradient(circle, color-mix(in srgb, var(--${cover.color}) 55%, transparent) ${dot * 0.6}px, transparent ${dot * 0.6 + 0.5}px)`,
+        backgroundSize: `${grid * 2}px ${grid * 2}px, ${grid * 2}px ${grid * 2}px`,
+        backgroundPosition: `${grid / 2}px ${grid / 2}px, ${grid * 1.5}px ${grid * 1.5}px`,
       }}
     />
   );

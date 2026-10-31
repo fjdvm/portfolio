@@ -1,19 +1,34 @@
 import type { Project } from "@/lib/projects";
 import { ProjectCover } from "./project-cover";
+import { WinnerBadge } from "./winner-badge";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="flex flex-col gap-3">
-      <ProjectCover project={project} />
-      <div className="flex items-baseline justify-between gap-4">
-        <h2 className="text-[17px] font-medium leading-[normal] text-ink">{project.title}</h2>
-        <span className="font-mono text-[13px] leading-[normal] text-faint">{project.year}</span>
+      <div className="relative">
+        <ProjectCover project={project} />
+        {project.badge && (
+          <WinnerBadge
+            label={project.badge}
+            className="absolute left-3.5 top-3.5"
+          />
+        )}
+        {project.status && (
+          <WinnerBadge
+            label={project.status}
+            icon={false}
+            className="absolute left-3.5 top-3.5"
+          />
+        )}
       </div>
-      {project.status && (
-        <p className="self-start rounded-full bg-accentsoft px-[9px] py-[3px] text-xs font-medium leading-[normal] text-accent">
-          {project.status}
-        </p>
-      )}
+      <div className="flex items-baseline justify-between gap-4">
+        <h2 className="text-[17px] font-medium leading-[normal] text-ink">
+          {project.title}
+        </h2>
+        <span className="font-mono text-[13px] leading-[normal] text-faint">
+          {project.year}
+        </span>
+      </div>
       <p className="text-sm leading-[21px] text-muted">{project.summary}</p>
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <ul className="flex flex-wrap gap-1.5">

@@ -25,9 +25,7 @@ test("shows the intro line", () => {
 
 test("lists the four Projects in order", () => {
   render(<ProjectsPage />);
-  const titles = cards().map(
-    (c) => within(c).getByRole("heading").textContent,
-  );
+  const titles = cards().map((c) => within(c).getByRole("heading").textContent);
   expect(titles).toEqual(["CREOMS", "AGAPAI", "INGAT Remit", "PACE"]);
 });
 

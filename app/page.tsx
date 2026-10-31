@@ -2,6 +2,7 @@ import { ProjectCover } from "@/components/ui/project-cover";
 import Link from "next/link";
 import { events, selectedProjects } from "@/lib/projects";
 import { site } from "@/lib/site";
+import { WinnerBadge } from "@/components/ui/winner-badge";
 
 function SectionHeader({
   id,
@@ -17,20 +18,32 @@ function SectionHeader({
       <h2 id={id} className="text-sm font-medium leading-[normal]">
         {title}
       </h2>
-      <div
-        aria-hidden="true"
-        className="h-px flex-1 bg-line"
-      />
+      <div aria-hidden="true" className="h-px flex-1 bg-line" />
       {children}
     </div>
   );
 }
 
-const glance = [
+function ContactLink({
+  label,
+  text = label,
+}: {
+  label: string;
+  text?: string;
+}) {
+  const link = site.links.find((l) => l.label === label)!;
+  return (
+    <a href={link.href} className="underline">
+      {text}
+    </a>
+  );
+}
+
+const glance: { label: string; badge?: string; value: string }[] = [
   {
     label: "Highlight",
-    value:
-      "Champion & Most Innovative Prototype · PUP Hackathon 2026, with AGAPAI",
+    badge: "Champion & Most Innovative Prototype",
+    value: "PUP Hackathon 2026, with AGAPAI",
   },
   { label: "Now", value: "Leading CREOMS development" },
   {
@@ -50,16 +63,13 @@ export default function Home() {
         lead development of a client system, and I&apos;m growing more
         interested in AI, cloud, and backend engineering.
       </p>
-      <nav aria-label="Elsewhere" className="mt-5">
-        <ul className="flex flex-wrap gap-x-5 gap-y-1 text-[15px] leading-[normal]">
-          {site.links.map((link) => (
-            <li key={link.label}>
-              <a href={link.href} className="underline">
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      <nav
+        aria-label="Elsewhere"
+        className="mt-5 text-[15px] leading-[normal] text-ink"
+      >
+        You can also find me on <ContactLink label="LinkedIn" />,{" "}
+        <ContactLink label="GitHub" />, or send me an{" "}
+        <ContactLink label="Email" text="email" />.
       </nav>
       <div
         role="group"
@@ -72,7 +82,8 @@ export default function Home() {
               <dt className="w-[84px] shrink-0 font-mono text-xs leading-[normal] text-faint">
                 {row.label}
               </dt>
-              <dd className="text-[15px] leading-[normal] text-ink2">
+              <dd className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[15px] leading-[normal] text-ink2">
+                {row.badge && <WinnerBadge label={row.badge} />}
                 {row.value}
               </dd>
             </div>
@@ -82,7 +93,10 @@ export default function Home() {
 
       <section aria-labelledby="selected-projects" className="mt-16">
         <SectionHeader id="selected-projects" title="Selected projects">
-          <Link href="/projects" className="text-[13px] leading-[normal] text-muted">
+          <Link
+            href="/projects"
+            className="text-[13px] leading-[normal] text-muted"
+          >
             All projects →
           </Link>
         </SectionHeader>
@@ -94,7 +108,9 @@ export default function Home() {
             >
               <ProjectCover project={project} size="thumb" />
               <div className="min-w-0 flex-1">
-                <h3 className="font-medium leading-[normal] text-ink">{project.title}</h3>
+                <h3 className="font-medium leading-[normal] text-ink">
+                  {project.title}
+                </h3>
                 <p className="mt-[3px] line-clamp-2 text-sm leading-5 text-muted">
                   {project.summary}
                 </p>
@@ -116,7 +132,9 @@ export default function Home() {
                 {event.date}
               </span>
               <div>
-                <p className="text-[15px] leading-[22px] text-ink">{event.title}</p>
+                <p className="text-[15px] leading-[22px] text-ink">
+                  {event.title}
+                </p>
                 <p className="mt-0.5 text-sm leading-5 text-muted">
                   {event.detail}
                 </p>

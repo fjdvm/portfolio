@@ -1,6 +1,12 @@
 export type Cover =
-  | { kind: "photo"; src: string; alt: string; credit: string; position?: string }
-  | { kind: "pattern"; color: string };
+  | {
+      kind: "photo";
+      src: string;
+      alt: string;
+      credit: string;
+      position?: string;
+    }
+  | { kind: "pattern"; color: "green" | "amber" };
 
 export type Project = {
   cover: Cover;
@@ -17,7 +23,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: "CREOMS",
-    cover: { kind: "pattern", color: "#3f7d4e" },
+    cover: { kind: "pattern", color: "green" },
     year: 2026,
     summary:
       "Customer relationship and e-commerce ordering management system for a client. I lead its development.",
