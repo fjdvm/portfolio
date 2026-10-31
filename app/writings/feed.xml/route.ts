@@ -1,6 +1,8 @@
 import { getWritings } from "@/lib/writings-source";
 import { site } from "@/lib/site";
 
+export const dynamic = "force-static";
+
 const escapeXml = (s: string) =>
   s
     .replaceAll("&", "&amp;")
@@ -8,11 +10,11 @@ const escapeXml = (s: string) =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
-export async function GET(request: Request) {
+export async function GET() {
   const writings = await getWritings();
   if (writings.length === 0) return new Response("Not found", { status: 404 });
 
-  const { origin } = new URL(request.url);
+  const origin = site.url;
   const items = writings
     .map((w) => {
       const url = `${origin}/writings/${w.slug}`;

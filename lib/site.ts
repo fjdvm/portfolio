@@ -1,5 +1,6 @@
 export const site = {
   name: "Fitz Martin",
+  url: "https://fitzmartin.pages.dev",
   description: "Student builder at PUP.",
   // Hero photo on Home is built but hidden for now; flip to show it again.
   showHeroPhoto: false,

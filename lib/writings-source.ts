@@ -7,7 +7,6 @@ const dir = path.join(process.cwd(), "content/writings");
 
 /** Every Writing, newest first. Each MDX file exports `meta`. */
 export async function getWritings(): Promise<Writing[]> {
-  "use cache";
   const files = await readdir(dir).catch(() => []);
   const slugs = files
     .filter((f) => f.endsWith(".mdx") && !f.startsWith("_"))

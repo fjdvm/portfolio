@@ -78,16 +78,16 @@ test("lists the rest by year, newest first, without repeating the featured essay
 });
 
 test("feed route returns an RSS feed of the Writings", async () => {
-  const res = await GET(new Request("https://example.test/writings/feed.xml"));
+  const res = await GET();
   expect(res.headers.get("Content-Type")).toMatch(/rss\+xml/);
   const xml = await res.text();
   expect(xml).toContain("<title>Fixture latest essay</title>");
-  expect(xml).toContain("<link>https://example.test/writings/latest</link>");
+  expect(xml).toContain("<link>https://fitzmartin.pages.dev/writings/latest</link>");
   expect(xml.match(/<item>/g)).toHaveLength(5);
 });
 
 test("feed route is 404 while there are no Writings", async () => {
   vi.mocked(getWritings).mockResolvedValue([]);
-  const res = await GET(new Request("https://example.test/writings/feed.xml"));
+  const res = await GET();
   expect(res.status).toBe(404);
 });
