@@ -10,6 +10,7 @@ vi.mock("next/navigation", () => ({ usePathname: () => pathname.value }));
 vi.mock("next/font/google", () => ({
   Geist: () => ({ variable: "" }),
   Geist_Mono: () => ({ variable: "" }),
+  Newsreader: () => ({ variable: "" }),
 }));
 
 afterEach(() => {

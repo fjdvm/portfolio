@@ -34,9 +34,14 @@ test("info card rows match the Highlight, Now and Studying copy", () => {
   ]);
 });
 
-test("intro is flagged for the Owner's review", () => {
+test("intro states the Owner's work and interests, with no draft note", () => {
   render(<Home />);
-  expect(screen.getByText(/draft.*owner to review/i)).toBeDefined();
+  expect(
+    screen.getByText(
+      "I'm a PUP student who builds web and mobile apps and small tools. I lead development of a client system, and I'm growing more interested in AI, cloud, and backend engineering.",
+    ),
+  ).toBeDefined();
+  expect(screen.queryByText(/draft/i)).toBeNull();
 });
 
 test("selected projects list CREOMS, AGAPAI, INGAT Remit in order with Covers and an All projects link", () => {
@@ -63,7 +68,7 @@ test("events lists exactly PUP Hackathon 2026 and Stellar APAC Hackathon", () =>
   const rows = within(section).getAllByRole("listitem");
   expect(rows.map((r) => r.textContent)).toEqual([
     "Oct 2026PUP Hackathon 2026Champion and Most Innovative Prototype · AGAPAI",
-    "2026Stellar APAC HackathonINGAT Remit",
+    "Jul 2026Stellar APAC HackathonINGAT Remit",
   ]);
 });
 

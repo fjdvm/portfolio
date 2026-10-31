@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Project } from "@/lib/projects";
+import { WinnerBadge } from "./winner-badge";
 
 export function ProjectCover({
   project,
@@ -13,9 +14,9 @@ export function ProjectCover({
 
   if (cover.kind === "photo") {
     return (
-      <figure className={thumb ? "size-14 shrink-0" : "mb-3"}>
+      <figure className={thumb ? "size-14 shrink-0" : undefined}>
         <div
-          className={`relative overflow-hidden ${thumb ? "size-14 rounded-lg" : "aspect-video rounded-md"}`}
+          className={`relative overflow-hidden ${thumb ? "size-14 rounded-lg" : "aspect-[348/216] rounded-[10px]"}`}
         >
           <Image
             src={cover.src}
@@ -25,10 +26,16 @@ export function ProjectCover({
             className="object-cover"
             style={{ objectPosition: cover.position }}
           />
+          {!thumb && project.badge && (
+            <WinnerBadge
+              label={project.badge}
+              className="absolute left-3.5 top-3.5"
+            />
+          )}
         </div>
         <figcaption
           className={
-            thumb ? "sr-only" : "mt-1 text-xs text-zinc-600 dark:text-zinc-400"
+            thumb ? "sr-only" : "mt-1 text-xs text-muted"
           }
         >
           Photo: {cover.credit}
@@ -42,7 +49,9 @@ export function ProjectCover({
       data-testid="cover-pattern"
       aria-hidden="true"
       className={
-        thumb ? "size-14 shrink-0 rounded-lg" : "mb-3 aspect-video rounded-md"
+        thumb
+          ? "size-14 shrink-0 rounded-lg"
+          : "aspect-[348/216] rounded-[10px]"
       }
       style={{
         color: cover.color,
