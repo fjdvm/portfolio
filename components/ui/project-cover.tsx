@@ -46,8 +46,8 @@ export function ProjectCover({
       }`}
       style={
         {
-          backgroundColor: `var(--${cover.color}soft)`,
-          backgroundImage: `radial-gradient(circle, var(--${cover.color}) ${dot}px, transparent ${dot + 0.5}px), radial-gradient(circle, color-mix(in srgb, var(--${cover.color}) 55%, transparent) ${dot * 0.6}px, transparent ${dot * 0.6 + 0.5}px)`,
+          backgroundColor: `var(--surface)`,
+          backgroundImage: `radial-gradient(circle, var(--faint) ${dot}px, transparent ${dot + 0.5}px), radial-gradient(circle, color-mix(in srgb, var(--faint) 55%, transparent) ${dot * 0.6}px, transparent ${dot * 0.6 + 0.5}px)`,
           backgroundSize: `${grid * 2}px ${grid * 2}px, ${grid * 2}px ${grid * 2}px`,
           "--tile": `${grid * 2}px`,
           "--p1": `${grid / 2}px`,

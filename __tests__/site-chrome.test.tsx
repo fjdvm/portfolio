@@ -21,7 +21,14 @@ afterEach(() => {
 test("nav shows only Home and Projects", () => {
   render(<Header />);
   const links = within(screen.getByRole("navigation")).getAllByRole("link");
-  expect(links.map((l) => l.textContent)).toEqual(["Home", "Projects"]);
+  expect(links.map((l) => l.textContent)).toEqual(["", "Home", "Projects"]);
+});
+
+test("logo at the left links home", () => {
+  render(<Header />);
+  const logo = screen.getByRole("link", { name: "Fitz, home" });
+  expect(logo.getAttribute("href")).toBe("/");
+  expect(logo.querySelectorAll("img").length).toBe(2);
 });
 
 test("nav marks the current page", () => {

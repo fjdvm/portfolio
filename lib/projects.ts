@@ -6,7 +6,7 @@ export type Cover =
       credit: string;
       position?: string;
     }
-  | { kind: "pattern"; color: "green" | "amber" };
+  | { kind: "pattern" };
 
 export type Project = {
   cover: Cover;
@@ -23,7 +23,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: "CREOMS",
-    cover: { kind: "pattern", color: "green" },
+    cover: { kind: "pattern" },
     year: 2026,
     summary:
       "Customer relationship and e-commerce ordering management system for a client. I lead its development.",
