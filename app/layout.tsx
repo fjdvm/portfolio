@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { site } from "@/lib/site";
+import { getWritings } from "@/lib/writings-source";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,18 +26,20 @@ export const metadata: Metadata = {
   description: site.description,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const hasWritings = (await getWritings()).length > 0;
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
+        <Header showWritings={hasWritings} />
         <main className="mx-auto w-full max-w-3xl flex-1 px-6 pb-24">
           {children}
         </main>
-        <Footer />
+        <Footer showRss={hasWritings} />
       </body>
     </html>
   );

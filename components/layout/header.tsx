@@ -4,15 +4,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "@/lib/site";
 
-export function Header() {
+export function Header({ showWritings = false }: { showWritings?: boolean }) {
   const pathname = usePathname();
+  const nav = showWritings
+    ? [...site.nav, { href: "/writings", label: "Writings" }]
+    : site.nav;
 
   return (
     <header>
       <nav aria-label="Main" className="mx-auto max-w-3xl px-6 pt-12">
         <div className="flex items-center justify-end">
           <ul className="flex gap-7 text-[15px] leading-[normal]">
-            {site.nav.map((item) => {
+            {nav.map((item) => {
               const active = item.href === pathname;
               return (
                 <li key={item.href}>

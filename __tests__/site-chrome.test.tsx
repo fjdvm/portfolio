@@ -24,6 +24,26 @@ test("nav shows only Home and Projects", () => {
   expect(links.map((l) => l.textContent)).toEqual(["Home", "Projects"]);
 });
 
+test("nav adds Writings once a Writing exists", () => {
+  render(<Header showWritings />);
+  const links = within(screen.getByRole("navigation")).getAllByRole("link");
+  expect(links.map((l) => [l.textContent, l.getAttribute("href")])).toEqual([
+    ["Home", "/"],
+    ["Projects", "/projects"],
+    ["Writings", "/writings"],
+  ]);
+});
+
+test("footer adds an RSS link only once a Writing exists", () => {
+  render(<Footer showRss />);
+  expect(screen.getAllByRole("link").map((l) => l.textContent)).toEqual([
+    "RSS",
+    "GitHub",
+    "LinkedIn",
+    "Email",
+  ]);
+});
+
 test("header has no logo", () => {
   render(<Header />);
   expect(screen.queryByRole("link", { name: "Fitz, home" })).toBeNull();
