@@ -1,5 +1,11 @@
 import { afterEach, expect, test, vi } from "vitest";
-import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
+import {
+  cleanup,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import Home from "@/app/page";
 import { site } from "@/lib/site";
 
@@ -119,21 +125,38 @@ test("photo project rows show their credit; CREOMS has none", () => {
   expect(within(rows[2]).getByText("Photo: Rise In and Stellar")).toBeDefined();
 });
 
-test("events show three full-colour photos with credits in alt text, before the rows", async () => {
+function eventPhotos() {
   render(<Home />);
   const section = screen.getByRole("region", { name: "Events & community" });
-  const photos = within(section).getAllByRole("img");
+  return { section, photos: within(section).getAllByRole("img") };
+}
+
+test("events show the three photos in order, before the rows", () => {
+  const { section, photos } = eventPhotos();
   expect(photos.map((p) => p.getAttribute("src"))).toEqual([
     "/images/projects/AGAPAI_Most_Innovative.jpg",
     "/images/projects/AGAPAI_Champion.jpg",
     "/images/projects/INGAT_Stellar.jpg",
   ]);
-  expect(photos.map((p) => /Photo: (RISFI|Rise In and Stellar)$/.test(p.getAttribute("alt")!))).toEqual([true, true, true]);
-  // Reduced motion: cards sit in place, no pop-in from scale 0.
+  const firstRow = within(section).getAllByRole("listitem")[0];
+  expect(
+    photos[2].compareDocumentPosition(firstRow) &
+      Node.DOCUMENT_POSITION_FOLLOWING,
+  ).toBeTruthy();
+});
+
+test("event photos carry their credit in the alt text", () => {
+  const { photos } = eventPhotos();
+  expect(photos.map((p) => p.getAttribute("alt")?.split("Photo: ")[1])).toEqual(
+    ["RISFI", "RISFI", "Rise In and Stellar"],
+  );
+});
+
+test("with reduced motion the event photos are in place without a bounce", async () => {
+  const { photos } = eventPhotos();
   await waitFor(() =>
     expect((photos[0].parentElement as HTMLElement).style.transform).toMatch(
       /scale\(1\.0000\)/,
     ),
   );
-  expect(photos[0].compareDocumentPosition(within(section).getAllByRole("listitem")[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 });

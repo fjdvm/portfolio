@@ -5,27 +5,25 @@ import { useInView, useReducedMotion } from "motion/react";
 import BounceCards from "./bounce-cards";
 
 // Figma "Event photos · BounceCards": 720×250 frame, 170px cards (6px white
-// frame), tilted about -9° / 0° / 9°. Offsets are from the frame centre.
-const images = [
+// frame), tilted about -9° / 0° / 9°. Each transform is the card's centre
+// offset from the frame centre, read off the Figma frame.
+const cards = [
   {
+    transform: "rotate(-9deg) translate(-112.75px, -2.34px)",
     src: "/images/projects/AGAPAI_Most_Innovative.jpg",
     alt: "Team AI Did It with the Most Innovative Prototype plaque at PUP Hackathon 2026. Photo: RISFI",
   },
   {
+    transform: "rotate(0deg) translate(0px, -10px)",
     src: "/images/projects/AGAPAI_Champion.jpg",
     alt: "Team AI Did It holding the Champion and Most Innovative Prototype plaques. Photo: RISFI",
     position: "center 5%",
   },
   {
+    transform: "rotate(9deg) translate(120.66px, -3.75px)",
     src: "/images/projects/INGAT_Stellar.jpg",
     alt: "Participants at the Stellar APAC Hackathon 2026 in Manila. Photo: Rise In and Stellar",
   },
-];
-
-const transformStyles = [
-  "rotate(-9deg) translate(-112.75px, -2.34px)",
-  "rotate(0deg) translate(0px, -10px)",
-  "rotate(9deg) translate(120.66px, -3.75px)",
 ];
 
 export default function EventPhotos() {
@@ -43,14 +41,14 @@ export default function EventPhotos() {
       >
         {(reduce || inView) && (
           <BounceCards
-            images={images}
+            images={cards}
             containerWidth={720}
             containerHeight={250}
             cardSize={170}
             borderWidth={6}
             radius={16}
             animationDelay={0.1}
-            transformStyles={transformStyles}
+            transformStyles={cards.map((c) => c.transform)}
             style={
               {
                 "--bounce-cards-shadow": "0 10px 24px -6px rgba(0,0,0,0.12)",
