@@ -22,6 +22,8 @@ export function AwardBadge({
       backgroundColor="#ffffff"
       borderColor="#c7c7cc"
       textColor="#1d1d1f"
+      // Padding is 1px more than Figma's: its 1px border takes layout space, StarBorder's is inset.
+      // `!` beats StarBorder's built-in px-6 py-3.5.
       className="gap-[5px] !py-[5px] !pl-[10px] !pr-[12px] max-w-full text-xs leading-4"
     >
       <Image src="/icons/trophy.svg" alt="" width={12} height={12} />

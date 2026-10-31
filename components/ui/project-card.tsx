@@ -4,6 +4,7 @@ import { AwardBadge } from "./award-badge";
 
 export function ProjectCard({ project }: { project: Project }) {
   // Photo covers carry a credit caption below the image; keep the badge on the image.
+  // overflow-x-clip on the article contains the Award badge canvas, which bleeds 48px past the pill.
   const badgeClass = `absolute right-3.5 ${project.cover.kind === "photo" ? "bottom-9" : "bottom-3.5"}`;
   return (
     <article className="flex flex-col gap-3 overflow-x-clip">
