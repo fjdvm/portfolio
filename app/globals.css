@@ -12,10 +12,10 @@
   --linestrong: #d1d5db;
   --accent: #0f766e;
   --accentsoft: #ccfbf1;
-  --green: #15803d;
-  --greensoft: #dcfce7;
-  --amber: #a16207;
-  --ambersoft: #fef3c7;
+  --green: #2f7a55;
+  --greensoft: #e3f2ea;
+  --amber: #7a5bd0;
+  --ambersoft: #eee9fb;
 }
 
 @theme inline {
@@ -47,4 +47,30 @@ body {
 .underline {
   text-decoration-thickness: from-font;
   text-underline-position: from-font;
+}
+
+@keyframes cover-drift {
+  from {
+    background-position:
+      var(--p1) var(--p1),
+      var(--p2) var(--p2);
+  }
+  to {
+    background-position:
+      calc(var(--p1) + var(--tile)) calc(var(--p1) + var(--tile)),
+      calc(var(--p2) + var(--tile)) calc(var(--p2) + var(--tile));
+  }
+}
+
+.cover-pattern {
+  background-position:
+    var(--p1) var(--p1),
+    var(--p2) var(--p2);
+  animation: cover-drift 12s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-pattern {
+    animation: none;
+  }
 }
