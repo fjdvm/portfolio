@@ -35,6 +35,14 @@ function usePrefersReducedMotion() {
   );
 }
 
+// "top" or "center 18%" -> 0..1 vertical anchor, matching object-position.
+function focusYFrom(position?: string) {
+  if (!position) return 0.5;
+  if (position.includes("top")) return 0;
+  const percent = position.match(/(\d+(?:\.\d+)?)%\s*$/);
+  return percent ? Number(percent[1]) / 100 : 0.5;
+}
+
 export function PhotoArt({
   src,
   alt,
@@ -65,6 +73,7 @@ export function PhotoArt({
     <div role="img" aria-label={alt} className="size-full">
       <HalftoneReveal
         src={src}
+        focusY={focusYFrom(position)}
         mode="color"
         cellSize={cell}
         angle={45}
