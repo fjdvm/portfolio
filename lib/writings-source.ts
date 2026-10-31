@@ -1,5 +1,6 @@
 import { readdir } from "node:fs/promises";
 import path from "node:path";
+import type { ComponentType } from "react";
 import { sortWritings, type Writing } from "@/lib/writings";
 
 const dir = path.join(process.cwd(), "content/writings");
@@ -18,4 +19,10 @@ export async function getWritings(): Promise<Writing[]> {
     }),
   );
   return sortWritings(writings);
+}
+
+/** The compiled MDX body of one Writing. */
+export async function getWritingBody(slug: string): Promise<ComponentType> {
+  const { default: Body } = await import(`@/content/writings/${slug}.mdx`);
+  return Body;
 }

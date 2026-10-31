@@ -48,3 +48,12 @@ export function groupByYear(writings: Writing[]) {
 }
 
 export const feedPath = "/writings/feed.xml";
+
+/** Writings sorted newest first: `previous` is the next older one, `next` the next newer one. */
+export function neighbours(writings: Writing[], slug: string) {
+  const i = writings.findIndex((w) => w.slug === slug);
+  return {
+    previous: writings[i + 1],
+    next: i > 0 ? writings[i - 1] : undefined,
+  };
+}
