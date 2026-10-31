@@ -12,7 +12,10 @@ vi.mock("next/font/google", () => ({
   Geist_Mono: () => ({ variable: "" }),
 }));
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  pathname.value = "/";
+});
 
 test("nav shows only Home and Projects", () => {
   render(<Header />);
