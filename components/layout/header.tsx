@@ -8,12 +8,9 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-black/10 dark:border-white/15">
-      <nav
-        aria-label="Main"
-        className="mx-auto flex max-w-3xl justify-end px-6 py-4"
-      >
-        <ul className="flex gap-4 text-sm">
+    <header>
+      <nav aria-label="Main" className="mx-auto max-w-3xl px-6 pt-12">
+        <ul className="flex gap-7 text-[15px] leading-[normal]">
           {site.nav.map((item) => {
             const active = item.href === pathname;
             return (
@@ -21,7 +18,11 @@ export function Header() {
                 <Link
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={active ? "font-semibold underline" : undefined}
+                  className={
+                    active
+                      ? "flex flex-col gap-[3px] font-medium text-ink after:h-[1.5px] after:bg-accent"
+                      : "text-muted"
+                  }
                 >
                   {item.label}
                 </Link>

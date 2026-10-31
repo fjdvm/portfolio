@@ -1,46 +1,67 @@
 import type { Project } from "@/lib/projects";
 import { ProjectCover } from "./project-cover";
+import { WinnerBadge } from "./winner-badge";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="flex flex-col rounded-lg border border-black/10 p-4 dark:border-white/15">
-      <ProjectCover project={project} />
+    <article className="flex flex-col gap-3">
+      <div className="relative">
+        <ProjectCover project={project} />
+        {project.badge && (
+          <WinnerBadge
+            label={project.badge}
+            className="absolute left-3.5 top-3.5"
+          />
+        )}
+        {project.status && (
+          <WinnerBadge
+            label={project.status}
+            icon={false}
+            className="absolute left-3.5 top-3.5"
+          />
+        )}
+      </div>
       <div className="flex items-baseline justify-between gap-4">
-        <h2 className="font-semibold">{project.title}</h2>
-        <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
+        <h2 className="text-[17px] font-medium leading-[normal] text-ink">
+          {project.title}
+        </h2>
+        <span className="font-mono text-[13px] leading-[normal] text-faint">
           {project.year}
         </span>
       </div>
-      {project.status && (
-        <p className="mt-1 text-xs font-medium">{project.status}</p>
-      )}
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        {project.summary}
-      </p>
-      <ul className="mt-3 flex flex-wrap gap-2 text-xs">
-        {project.tags.map((tag) => (
-          <li
-            key={tag}
-            className="rounded-full border border-black/10 px-2 py-0.5 dark:border-white/15"
-          >
-            {tag}
-          </li>
-        ))}
-      </ul>
-      {(project.liveUrl || project.codeUrl) && (
-        <div className="mt-3 flex gap-4 text-sm">
-          {project.liveUrl && (
-            <a href={project.liveUrl} className="underline">
-              Live
-            </a>
-          )}
-          {project.codeUrl && (
-            <a href={project.codeUrl} className="underline">
-              Code
-            </a>
-          )}
-        </div>
-      )}
+      <p className="text-sm leading-[21px] text-muted">{project.summary}</p>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+        <ul className="flex flex-wrap gap-1.5">
+          {project.tags.map((tag) => (
+            <li
+              key={tag}
+              className="rounded-full border border-line px-2 py-0.5 font-mono text-xs leading-[normal] text-muted"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
+        {(project.liveUrl || project.codeUrl) && (
+          <div className="flex gap-3.5 text-[13px] leading-[normal] text-ink">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                className="underline after:content-['_↗']"
+              >
+                Live
+              </a>
+            )}
+            {project.codeUrl && (
+              <a
+                href={project.codeUrl}
+                className="underline after:content-['_↗']"
+              >
+                Code
+              </a>
+            )}
+          </div>
+        )}
+      </div>
     </article>
   );
 }

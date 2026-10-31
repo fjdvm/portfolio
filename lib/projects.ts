@@ -1,6 +1,12 @@
 export type Cover =
-  | { kind: "photo"; src: string; alt: string; credit: string; position?: string }
-  | { kind: "pattern"; color: string };
+  | {
+      kind: "photo";
+      src: string;
+      alt: string;
+      credit: string;
+      position?: string;
+    }
+  | { kind: "pattern"; color: "green" | "amber" };
 
 export type Project = {
   cover: Cover;
@@ -9,6 +15,7 @@ export type Project = {
   summary: string;
   tags: string[];
   status?: string;
+  badge?: string;
   liveUrl?: string;
   codeUrl?: string;
 };
@@ -16,7 +23,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: "CREOMS",
-    cover: { kind: "pattern", color: "#0f766e" },
+    cover: { kind: "pattern", color: "green" },
     year: 2026,
     summary:
       "Customer relationship and e-commerce ordering management system for a client. I lead its development.",
@@ -33,6 +40,7 @@ export const projects: Project[] = [
       position: "center 30%",
     },
     year: 2026,
+    badge: "Winner · PUP Hackathon 2026",
     summary:
       "Offline-first injury first-aid app with a health-office dashboard. Champion and Most Innovative Prototype at PUP Hackathon 2026, built by a team of five with me as AI and lead developer.",
     tags: ["react native", "next.js", "convex", "maplibre"],
@@ -88,7 +96,7 @@ export const events: CommunityEvent[] = [
   },
   {
     title: "Stellar APAC Hackathon",
-    date: "2026",
+    date: "Jul 2026",
     detail: "INGAT Remit",
   },
 ];

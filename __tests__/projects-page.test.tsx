@@ -18,16 +18,14 @@ test("shows the intro line", () => {
   render(<ProjectsPage />);
   expect(
     screen.getByText(
-      "Web and mobile apps I've built for hackathons, research, and a real client.",
+      "Things I've built for hackathons, research, and a real client.",
     ),
   ).toBeDefined();
 });
 
 test("lists the four Projects in order", () => {
   render(<ProjectsPage />);
-  const titles = cards().map(
-    (c) => within(c).getByRole("heading").textContent,
-  );
+  const titles = cards().map((c) => within(c).getByRole("heading").textContent);
   expect(titles).toEqual(["CREOMS", "AGAPAI", "INGAT Remit", "PACE"]);
 });
 
@@ -106,4 +104,10 @@ test("CREOMS shows the dot pattern and no photo or credit", () => {
     expect(c.queryByRole("img")).toBeNull();
     expect(c.queryByText(/^Photo:/)).toBeNull();
   }
+});
+
+test("AGAPAI Cover carries the winner badge, others do not", () => {
+  render(<ProjectsPage />);
+  expect(card("AGAPAI").getByText("Winner · PUP Hackathon 2026")).toBeDefined();
+  expect(card("PACE").queryByText(/^Winner/)).toBeNull();
 });

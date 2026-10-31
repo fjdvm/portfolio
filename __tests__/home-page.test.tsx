@@ -6,17 +6,24 @@ afterEach(cleanup);
 
 test("shows the heading", () => {
   render(<Home />);
-  expect(screen.getByRole("heading", { level: 1, name: "Hi, I'm Fitz." })).toBeDefined();
+  expect(
+    screen.getByRole("heading", { level: 1, name: "Hi, I'm Fitz." }),
+  ).toBeDefined();
 });
 
-test("links to GitHub, LinkedIn and Email, with no résumé link", () => {
+test("invites contact as a sentence linking LinkedIn, GitHub and email, with no résumé link", () => {
   render(<Home />);
-  const links = within(screen.getByRole("navigation", { name: "Elsewhere" })).getAllByRole("link");
+  const links = within(
+    screen.getByRole("navigation", { name: "Elsewhere" }),
+  ).getAllByRole("link");
   expect(links.map((l) => [l.textContent, l.getAttribute("href")])).toEqual([
-    ["GitHub", "https://github.com/fjdvm"],
     ["LinkedIn", "https://www.linkedin.com/in/fitzmartin"],
-    ["Email", "mailto:jude.nitram08@gmail.com"],
+    ["GitHub", "https://github.com/fjdvm"],
+    ["email", "mailto:jude.nitram08@gmail.com"],
   ]);
+  expect(
+    screen.getByRole("navigation", { name: "Elsewhere" }).textContent,
+  ).toBe("You can also find me on LinkedIn, GitHub, or send me an email.");
   expect(screen.queryByText(/résumé|resume|cv/i)).toBeNull();
 });
 
@@ -28,15 +35,23 @@ test("info card rows match the Highlight, Now and Studying copy", () => {
     dt.nextElementSibling?.textContent,
   ]);
   expect(rows).toEqual([
-    ["Highlight", "Champion & Most Innovative Prototype · PUP Hackathon 2026, with AGAPAI"],
+    [
+      "Highlight",
+      "Champion & Most Innovative PrototypePUP Hackathon 2026, with AGAPAI",
+    ],
     ["Now", "Leading CREOMS development"],
     ["Studying", "Polytechnic University of the Philippines, expected 2027"],
   ]);
 });
 
-test("intro is flagged for the Owner's review", () => {
+test("intro states the Owner's work and interests, with no draft note", () => {
   render(<Home />);
-  expect(screen.getByText(/draft.*owner to review/i)).toBeDefined();
+  expect(
+    screen.getByText(
+      "I'm a PUP student who builds web and mobile apps and small tools. I lead development of a client system, and I'm growing more interested in AI, cloud, and backend engineering.",
+    ),
+  ).toBeDefined();
+  expect(screen.queryByText(/draft/i)).toBeNull();
 });
 
 test("selected projects list CREOMS, AGAPAI, INGAT Remit in order with Covers and an All projects link", () => {
@@ -48,12 +63,20 @@ test("selected projects list CREOMS, AGAPAI, INGAT Remit in order with Covers an
     "AGAPAI",
     "INGAT Remit",
   ]);
-  expect(rows.map((r) => r.querySelector("time")?.textContent)).toEqual(["2026", "2026", "2026"]);
+  expect(rows.map((r) => r.querySelector("time")?.textContent)).toEqual([
+    "2026",
+    "2026",
+    "2026",
+  ]);
   expect(within(rows[0]).getByTestId("cover-pattern")).toBeDefined();
   expect(within(rows[1]).getByRole("img", { name: /Champion/ })).toBeDefined();
-  expect(within(rows[2]).getByRole("img", { name: /Stellar APAC/ })).toBeDefined();
   expect(
-    within(section).getByRole("link", { name: /All projects/ }).getAttribute("href"),
+    within(rows[2]).getByRole("img", { name: /Stellar APAC/ }),
+  ).toBeDefined();
+  expect(
+    within(section)
+      .getByRole("link", { name: /All projects/ })
+      .getAttribute("href"),
   ).toBe("/projects");
 });
 
@@ -63,7 +86,7 @@ test("events lists exactly PUP Hackathon 2026 and Stellar APAC Hackathon", () =>
   const rows = within(section).getAllByRole("listitem");
   expect(rows.map((r) => r.textContent)).toEqual([
     "Oct 2026PUP Hackathon 2026Champion and Most Innovative Prototype · AGAPAI",
-    "2026Stellar APAC HackathonINGAT Remit",
+    "Jul 2026Stellar APAC HackathonINGAT Remit",
   ]);
 });
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { site } from "@/lib/site";
@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: { default: site.name, template: `%s | ${site.name}` },
   description: site.description,
@@ -24,11 +29,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Header />
-        <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-12">
+        <main className="mx-auto w-full max-w-3xl flex-1 px-6 pb-24">
           {children}
         </main>
         <Footer />

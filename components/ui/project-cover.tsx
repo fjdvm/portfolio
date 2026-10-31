@@ -13,9 +13,9 @@ export function ProjectCover({
 
   if (cover.kind === "photo") {
     return (
-      <figure className={thumb ? "size-14 shrink-0" : "mb-3"}>
+      <figure className={thumb ? "size-14 shrink-0" : undefined}>
         <div
-          className={`relative overflow-hidden ${thumb ? "size-14 rounded-lg" : "aspect-video rounded-md"}`}
+          className={`relative overflow-hidden ${thumb ? "size-14 rounded-lg" : "aspect-[348/216] rounded-[10px]"}`}
         >
           <Image
             src={cover.src}
@@ -26,30 +26,29 @@ export function ProjectCover({
             style={{ objectPosition: cover.position }}
           />
         </div>
-        <figcaption
-          className={
-            thumb ? "sr-only" : "mt-1 text-xs text-zinc-600 dark:text-zinc-400"
-          }
-        >
+        <figcaption className={thumb ? "sr-only" : "mt-1 text-xs text-muted"}>
           Photo: {cover.credit}
         </figcaption>
       </figure>
     );
   }
 
+  const dot = thumb ? 2.5 : 5;
+  const grid = thumb ? 14 : 28;
   return (
     <div
       data-testid="cover-pattern"
       aria-hidden="true"
       className={
-        thumb ? "size-14 shrink-0 rounded-lg" : "mb-3 aspect-video rounded-md"
+        thumb
+          ? "size-14 shrink-0 rounded-lg"
+          : "aspect-[348/216] rounded-[10px]"
       }
       style={{
-        color: cover.color,
-        backgroundColor: "color-mix(in srgb, currentColor 8%, transparent)",
-        backgroundImage:
-          "radial-gradient(circle, currentColor 1.5px, transparent 1.5px)",
-        backgroundSize: "16px 16px",
+        backgroundColor: `var(--${cover.color}soft)`,
+        backgroundImage: `radial-gradient(circle, var(--${cover.color}) ${dot}px, transparent ${dot + 0.5}px), radial-gradient(circle, color-mix(in srgb, var(--${cover.color}) 55%, transparent) ${dot * 0.6}px, transparent ${dot * 0.6 + 0.5}px)`,
+        backgroundSize: `${grid * 2}px ${grid * 2}px, ${grid * 2}px ${grid * 2}px`,
+        backgroundPosition: `${grid / 2}px ${grid / 2}px, ${grid * 1.5}px ${grid * 1.5}px`,
       }}
     />
   );
