@@ -3,7 +3,7 @@ export type Cover =
       kind: "photo";
       src: string;
       alt: string;
-      credit: string;
+      credit?: string;
       position?: string;
     }
   | { kind: "gradient" };
@@ -30,7 +30,6 @@ export const works: Work[] = [
       kind: "photo",
       src: "/images/works/AGAPAI_Champion.jpg",
       alt: "Team AI Did It holding the Champion and Most Innovative Prototype plaques",
-      credit: "RISFI",
       position: "center 5%",
     },
     year: 2026,

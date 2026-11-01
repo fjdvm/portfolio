@@ -87,9 +87,9 @@ export default async function Home() {
             <WorkCover work={hero} size="hero" showCredit={false} />
             <figcaption className="mt-2.5 flex flex-wrap justify-between gap-x-4 font-mono text-xs leading-[normal] text-faint">
               <span>PUP Hackathon 2026 · Team AI Did It</span>
-              <span>
-                Photo: {hero.cover.kind === "photo" && hero.cover.credit}
-              </span>
+              {hero.cover.kind === "photo" && hero.cover.credit && (
+                <span>Photo: {hero.cover.credit}</span>
+              )}
             </figcaption>
           </figure>
         </AnimatedContent>
@@ -149,7 +149,7 @@ export default async function Home() {
                   <p className="mt-[3px] line-clamp-2 text-sm leading-5 text-muted">
                     {work.summary}
                   </p>
-                  {work.cover.kind === "photo" && (
+                  {work.cover.kind === "photo" && work.cover.credit && (
                     <p className="mt-[3px] font-mono text-[11px] leading-[normal] text-faint">
                       Photo: {work.cover.credit}
                     </p>

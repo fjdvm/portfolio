@@ -89,10 +89,9 @@ test("summaries state the Owner's role and the award", () => {
   ).toBeDefined();
 });
 
-test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no gradient", () => {
+test("INGAT Remit and PACE show an image Cover with credit and no gradient", () => {
   render(<WorksPage />);
   const expected: Record<string, string> = {
-    AGAPAI: "RISFI",
     "INGAT Remit": "Rise In and Stellar",
     PACE: "PACE",
   };
@@ -102,6 +101,13 @@ test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no gradie
     expect(c.getByText(`Photo: ${credit}`)).toBeDefined();
     expect(c.queryByTestId("cover-pattern")).toBeNull();
   }
+});
+
+test("AGAPAI shows an image Cover with no credit", () => {
+  render(<WorksPage />);
+  const c = card("AGAPAI");
+  expect(c.getByRole("img")).toBeDefined();
+  expect(c.queryByText(/^Photo:/)).toBeNull();
 });
 
 test("CREOMS shows the pattern Cover and no photo or credit", () => {

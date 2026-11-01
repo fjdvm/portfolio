@@ -23,7 +23,7 @@ export function WorkCard({ work }: { work: Work }) {
         </span>
       </div>
       <p className="text-sm leading-[21px] text-muted">{work.summary}</p>
-      {work.cover.kind === "photo" && (
+      {work.cover.kind === "photo" && work.cover.credit && (
         <p className="text-xs text-muted">Photo: {work.cover.credit}</p>
       )}
       <div className="mt-auto flex items-center justify-between gap-4">

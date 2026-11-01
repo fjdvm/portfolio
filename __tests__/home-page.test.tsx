@@ -140,7 +140,7 @@ test("hero photo with caption shows only when enabled", async () => {
     return;
   }
   expect(caption).toBeDefined();
-  expect(screen.getAllByText("Photo: RISFI").length).toBe(2);
+  expect(screen.queryByText("Photo: RISFI")).toBeNull();
   // The hero carries the edge shine, not the star border.
   expect(screen.getAllByTestId("photo-shine").length).toBe(3);
 });
@@ -164,7 +164,7 @@ test("photo work rows show their credit; CREOMS has none", async () => {
   const section = screen.getByRole("region", { name: "Selected works" });
   const rows = within(section).getAllByRole("listitem");
   expect(within(rows[0]).queryByText(/Photo:/)).toBeNull();
-  expect(within(rows[1]).getByText("Photo: RISFI")).toBeDefined();
+  expect(within(rows[1]).queryByText(/Photo:/)).toBeNull();
   expect(within(rows[2]).getByText("Photo: Rise In and Stellar")).toBeDefined();
 });
 
@@ -188,10 +188,10 @@ test("events show the three photos in order, before the rows", async () => {
   ).toBeTruthy();
 });
 
-test("event photos carry their credit in the alt text", async () => {
+test("event photos carry a credit in the alt text only when not our own", async () => {
   const { photos } = await eventPhotos();
   expect(photos.map((p) => p.getAttribute("alt")?.split("Photo: ")[1])).toEqual(
-    ["RISFI", "RISFI", "Rise In and Stellar"],
+    [undefined, undefined, "Rise In and Stellar"],
   );
 });
 
