@@ -83,7 +83,7 @@ test("selected works list CREOMS, AGAPAI, INGAT Remit in order with Covers and a
     "2026",
     "2026",
   ]);
-  expect(within(rows[0]).getByTestId("cover-gradient")).toBeDefined();
+  expect(within(rows[0]).getByTestId("cover-pattern")).toBeDefined();
   expect(within(rows[1]).getByRole("img", { name: /Champion/ })).toBeDefined();
   expect(
     within(rows[2]).getByRole("img", { name: /Stellar APAC/ }),
@@ -141,6 +141,17 @@ test("hero photo with caption shows only when enabled", async () => {
   }
   expect(caption).toBeDefined();
   expect(screen.getAllByText("Photo: RISFI").length).toBe(2);
+  // The hero carries the edge shine, not the star border.
+  expect(screen.getAllByTestId("photo-shine").length).toBe(3);
+});
+
+test("photo thumbnails in selected works carry the edge shine; CREOMS does not", async () => {
+  render(await Home());
+  const section = screen.getByRole("region", { name: "Selected works" });
+  const rows = within(section).getAllByRole("listitem");
+  expect(within(rows[0]).queryByTestId("photo-shine")).toBeNull();
+  expect(within(rows[1]).getByTestId("photo-shine")).toBeDefined();
+  expect(within(rows[2]).getByTestId("photo-shine")).toBeDefined();
 });
 
 test("photo work rows show their credit; CREOMS has none", async () => {

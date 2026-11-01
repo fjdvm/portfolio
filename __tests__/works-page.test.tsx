@@ -100,15 +100,15 @@ test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no gradie
     const c = card(title);
     expect(c.getByRole("img")).toBeDefined();
     expect(c.getByText(`Photo: ${credit}`)).toBeDefined();
-    expect(c.queryByTestId("cover-gradient")).toBeNull();
+    expect(c.queryByTestId("cover-pattern")).toBeNull();
   }
 });
 
-test("CREOMS shows the gradient Cover and no photo or credit", () => {
+test("CREOMS shows the pattern Cover and no photo or credit", () => {
   render(<WorksPage />);
   for (const title of ["CREOMS"]) {
     const c = card(title);
-    expect(c.getByTestId("cover-gradient")).toBeDefined();
+    expect(c.getByTestId("cover-pattern")).toBeDefined();
     expect(c.queryByRole("img")).toBeNull();
     expect(c.queryByText(/^Photo:/)).toBeNull();
   }
@@ -127,14 +127,14 @@ test("under reduced motion, photo Covers show the unprocessed image with alt tex
   expect(img.getAttribute("alt")).toMatch(/Champion and Most Innovative/);
 });
 
-test("the gradient Cover does not repeat the title", () => {
+test("the pattern Cover does not repeat the title", () => {
   render(<WorksPage />);
   const c = card("CREOMS");
-  expect(c.getByTestId("cover-gradient").textContent).toBe("");
+  expect(c.getByTestId("cover-pattern").textContent).toBe("");
   expect(c.getAllByText("CREOMS")).toHaveLength(1);
 });
 
-test("photo Covers carry the edge shine; the gradient Cover does not", () => {
+test("photo Covers carry the edge shine; the pattern Cover does not", () => {
   render(<WorksPage />);
   for (const title of ["AGAPAI", "INGAT Remit", "PACE"]) {
     expect(card(title).getByTestId("photo-shine")).toBeDefined();

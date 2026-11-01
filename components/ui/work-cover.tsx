@@ -1,8 +1,6 @@
 import type { Work } from "@/lib/works";
-import Image from "next/image";
-import { GradientArt } from "./cover-art";
+import { PatternArt } from "./cover-art";
 import { ShinePhoto } from "./shine-photo";
-import StarBorder from "./star-border";
 
 export function WorkCover({
   work,
@@ -21,56 +19,31 @@ export function WorkCover({
       ? "h-[340px] rounded-[14px]"
       : "aspect-[348/216] rounded-xl";
 
-  if (cover.kind === "photo" && size === "hero") {
-    // A star circles the frame, like the award badge; the photo itself stays still.
-    return (
-      <StarBorder
-        as="div"
-        theme="light"
-        color="#0a0a0a"
-        duration={6}
-        radius={14}
-        thickness={1}
-        glow={0}
-        hover="none"
-        clickPulse={false}
-        backgroundColor="#f5f5f7"
-        borderColor="#c7c7cc"
-        className={`!block !p-0 w-full overflow-hidden ${box}`}
-      >
-        <Image
-          src={cover.src}
-          alt={cover.alt}
-          fill
-          sizes="(min-width: 768px) 720px, 100vw"
-          className="object-contain"
-          style={{ objectPosition: cover.position }}
-        />
-      </StarBorder>
-    );
-  }
-
   if (cover.kind === "photo") {
+    const radius = thumb
+      ? "var(--radius-lg)"
+      : size === "hero"
+        ? "14px"
+        : "var(--radius-xl)";
     return (
       <figure className={thumb ? "size-14 shrink-0" : undefined}>
-        <div className={`relative overflow-hidden ${box}`}>
-          {thumb ? (
-            <Image
-              src={cover.src}
-              alt={cover.alt}
-              fill
-              sizes="56px"
-              className="object-cover"
-              style={{ objectPosition: cover.position }}
-            />
-          ) : (
-            <ShinePhoto
-              src={cover.src}
-              alt={cover.alt}
-              position={cover.position}
-              sizes="(min-width: 768px) 50vw, 100vw"
-            />
-          )}
+        <div
+          className={`relative overflow-hidden ${box} ${size === "hero" ? "border border-[#c7c7cc] bg-[#f5f5f7]" : ""}`}
+        >
+          <ShinePhoto
+            src={cover.src}
+            alt={cover.alt}
+            position={cover.position}
+            sizes={
+              thumb
+                ? "56px"
+                : size === "hero"
+                  ? "(min-width: 768px) 720px, 100vw"
+                  : "(min-width: 768px) 50vw, 100vw"
+            }
+            fit={size === "hero" ? "contain" : "cover"}
+            radius={radius}
+          />
         </div>
         {showCredit && (
           <figcaption className={thumb ? "sr-only" : "mt-1 text-xs text-muted"}>
@@ -83,11 +56,11 @@ export function WorkCover({
 
   return (
     <div
-      data-testid="cover-gradient"
+      data-testid="cover-pattern"
       aria-hidden="true"
       className={`relative overflow-hidden ${box} ${thumb ? "shrink-0" : ""}`}
     >
-      <GradientArt size={thumb ? "thumb" : "card"} />
+      <PatternArt size={thumb ? "thumb" : "card"} />
     </div>
   );
 }

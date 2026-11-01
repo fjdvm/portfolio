@@ -16,7 +16,7 @@ A piece of tech work the Owner shows, with a title, year, summary, stack tags, a
 _Avoid_: repo, app
 
 **Cover**:
-The image on a Work card. A photo when one exists, shown in full colour with a specular shine on its edge. Otherwise a generated colourful gradient, shown as dots until the Audience hovers and then revealed in colour around the cursor.
+The image on a Work card. A photo when one exists, shown in full colour with a specular shine on its edge. Otherwise a generated colourful pattern, shown as monochrome dots until the Audience hovers and then revealed in colour around the cursor.
 
 **Status badge**:
 The plain pill on a Work Cover that has no photo, reading "Under development" with an icon. Shown on the Works page card of every Work without a photo, so it is never set by hand. The small Home thumbnail of that Work carries no badge. Distinct from the Award badge.

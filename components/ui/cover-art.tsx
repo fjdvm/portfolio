@@ -63,36 +63,55 @@ export function PhotoArt({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-// Generated cover for a Work with no photo: a colour gradient drawn as dots at rest,
-// revealed in full colour around the cursor. Under reduced motion it is the plain gradient.
-const GRADIENT_SVG =
-  "data:image/svg+xml," +
-  encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="696" height="432">` +
-      `<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">` +
-      `<stop offset="0" stop-color="#ff5f6d"/><stop offset=".35" stop-color="#ffc371"/>` +
-      `<stop offset=".7" stop-color="#47c9e5"/><stop offset="1" stop-color="#7b5cff"/>` +
-      `</linearGradient></defs><rect width="696" height="432" fill="url(#g)"/></svg>`,
-  );
-const GRADIENT_CSS =
-  "linear-gradient(135deg, #ff5f6d 0%, #ffc371 35%, #47c9e5 70%, #7b5cff 100%)";
+// Generated cover for a Work with no photo: a colourful Bauhaus-style tile pattern, drawn as
+// mono dots at rest and revealed in full colour around the cursor. Under reduced motion it is
+// the plain pattern.
+const W = 696;
+const H = 432;
+const TILE = 72;
+const PATTERN_SVG =
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">` +
+  `<defs>` +
+  `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">` +
+  `<stop offset="0" stop-color="#ff5f6d"/><stop offset=".4" stop-color="#ffc371"/>` +
+  `<stop offset=".75" stop-color="#47c9e5"/><stop offset="1" stop-color="#7b5cff"/>` +
+  `</linearGradient>` +
+  `<pattern id="t" width="${TILE * 2}" height="${TILE * 2}" patternUnits="userSpaceOnUse">` +
+  `<rect width="${TILE}" height="${TILE}" fill="#1b1464"/>` +
+  `<circle cx="${TILE}" cy="${TILE}" r="${TILE}" fill="#fff4d6"/>` +
+  `<circle cx="${TILE}" cy="${TILE}" r="${TILE * 0.55}" fill="#ff4d6d"/>` +
+  `<circle cx="${TILE}" cy="${TILE}" r="${TILE * 0.22}" fill="#1b1464"/>` +
+  `<rect x="${TILE}" width="${TILE}" height="${TILE}" fill="#00b4a6"/>` +
+  `<path d="M${TILE} ${TILE} V0 A${TILE} ${TILE} 0 0 1 ${TILE * 2} ${TILE} Z" fill="#ffd23f"/>` +
+  `<rect y="${TILE}" width="${TILE}" height="${TILE}" fill="#ffd23f"/>` +
+  `<path d="M0 ${TILE * 2} V${TILE} A${TILE} ${TILE} 0 0 1 ${TILE} ${TILE * 2} Z" fill="#7b5cff"/>` +
+  `<rect x="${TILE}" y="${TILE}" width="${TILE}" height="${TILE}" fill="#fff4d6"/>` +
+  `<circle cx="${TILE * 1.5}" cy="${TILE * 1.5}" r="${TILE * 0.38}" fill="#1b1464"/>` +
+  `</pattern>` +
+  `</defs>` +
+  `<rect width="${W}" height="${H}" fill="url(#g)"/>` +
+  `<rect width="${W}" height="${H}" fill="url(#t)"/>` +
+  `</svg>`;
+const PATTERN_SRC = "data:image/svg+xml," + encodeURIComponent(PATTERN_SVG);
+const PATTERN_CSS = `url("${PATTERN_SRC}") center / cover`;
 
-export function GradientArt({ size }: { size: "card" | "thumb" }) {
+export function PatternArt({ size }: { size: "card" | "thumb" }) {
   const reduceMotion = usePrefersReducedMotion();
   const { cell, reveal } = SIZES[size];
 
   if (reduceMotion) {
-    return <div className="size-full" style={{ backgroundImage: GRADIENT_CSS }} />;
+    return <div className="size-full" style={{ background: PATTERN_CSS }} />;
   }
   return (
     <HalftoneReveal
-      src={GRADIENT_SVG}
+      src={PATTERN_SRC}
       fit="cover"
-      mode="color"
+      mode="mono"
       cellSize={cell}
       angle={45}
       inkColor={INK}
       paperColor={PAPER}
+      contrast={1.15}
       revealRadius={reveal}
       clickBurst
       intro={false}
