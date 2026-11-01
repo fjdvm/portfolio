@@ -36,7 +36,6 @@ export function ShinePhoto({
 }) {
   const reduceMotion = useReducedMotion();
   const rim = useRef<HTMLDivElement>(null);
-  const glow = useRef<HTMLDivElement>(null);
   const spot = useRef<HTMLDivElement>(null);
 
   function follow(e: React.PointerEvent<HTMLDivElement>) {
@@ -51,20 +50,18 @@ export function ShinePhoto({
       spot.current.style.setProperty("--shine-y", `${e.clientY - box.top}px`);
       spot.current.dataset.on = "true";
     }
-    for (const el of [rim.current, glow.current]) {
-      if (!el) continue;
-      el.dataset.follow = "true";
-      el.style.setProperty("--shine-angle", `${angle}deg`);
-    }
+    const el = rim.current;
+    if (!el) return;
+    el.dataset.follow = "true";
+    el.style.setProperty("--shine-angle", `${angle}deg`);
   }
 
   function rest() {
     if (spot.current) delete spot.current.dataset.on;
-    for (const el of [rim.current, glow.current]) {
-      if (!el) continue;
-      delete el.dataset.follow;
-      el.style.removeProperty("--shine-angle");
-    }
+    const el = rim.current;
+    if (!el) return;
+    delete el.dataset.follow;
+    el.style.removeProperty("--shine-angle");
   }
 
   return (
@@ -93,12 +90,6 @@ export function ShinePhoto({
         ref={spot}
         aria-hidden="true"
         className="shine-spot pointer-events-none absolute inset-0 rounded-[inherit]"
-      />
-      <div
-        ref={glow}
-        aria-hidden="true"
-        data-static={reduceMotion ? "true" : undefined}
-        className="shine-glow pointer-events-none absolute inset-0 rounded-[inherit]"
       />
       <div
         ref={rim}

@@ -100,8 +100,7 @@ body {
   }
 }
 
-.shine-rim,
-.shine-glow {
+.shine-rim {
   --shine-angle: 315deg;
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
@@ -125,19 +124,6 @@ body {
     transparent 140deg,
     transparent 360deg
   );
-}
-
-/* A soft bloom around the bright part, so the edge looks lit rather than outlined. */
-.shine-glow {
-  padding: 3px;
-  background: conic-gradient(
-    from calc(var(--shine-angle) - 70deg),
-    transparent 0deg,
-    rgb(255 255 255 / 0.55) 70deg,
-    transparent 140deg,
-    transparent 360deg
-  );
-  filter: blur(3px);
 }
 
 /* A glint that sweeps across the photo now and then, and a soft spotlight under the pointer. */
@@ -184,15 +170,12 @@ body {
 }
 
 .shine-rim[data-follow="true"],
-.shine-rim[data-static="true"],
-.shine-glow[data-follow="true"],
-.shine-glow[data-static="true"] {
+.shine-rim[data-static="true"] {
   animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .shine-rim,
-  .shine-glow,
   .shine-sheen {
     animation: none;
   }
