@@ -115,7 +115,7 @@ body {
 
 /* The sharp bright rim. */
 .shine-rim {
-  padding: 1px;
+  padding: 0.5px;
   background: conic-gradient(
     from calc(var(--shine-angle) - 70deg),
     transparent 0deg,
@@ -129,7 +129,7 @@ body {
 
 /* A soft bloom around the bright part, so the edge looks lit rather than outlined. */
 .shine-glow {
-  padding: 5px;
+  padding: 3px;
   background: conic-gradient(
     from calc(var(--shine-angle) - 70deg),
     transparent 0deg,
@@ -137,7 +137,7 @@ body {
     transparent 140deg,
     transparent 360deg
   );
-  filter: blur(4px);
+  filter: blur(3px);
 }
 
 /* A glint that sweeps across the photo now and then, and a soft spotlight under the pointer. */
