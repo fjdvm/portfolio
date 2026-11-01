@@ -69,7 +69,7 @@ export function ShinePhoto({
 
   return (
     <div
-      className="relative size-full"
+      className="relative size-full rounded-[inherit]"
       onPointerDown={follow}
       onPointerMove={follow}
       onPointerUp={rest}
