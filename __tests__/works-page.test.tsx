@@ -3,8 +3,8 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import { mockMatchMedia } from "../vitest.setup";
 import WorksPage from "@/app/works/page";
 
-// jsdom has no WebGL; PatternWaves renders its canvas through ogl.
-vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
+// jsdom has no WebGL; HalftoneReveal draws its canvas with WebGL.
+vi.mock("@/components/ui/halftone-reveal", () => ({ default: () => null }));
 
 afterEach(cleanup);
 
@@ -89,7 +89,7 @@ test("summaries state the Owner's role and the award", () => {
   ).toBeDefined();
 });
 
-test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no pattern", () => {
+test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no gradient", () => {
   render(<WorksPage />);
   const expected: Record<string, string> = {
     AGAPAI: "RISFI",
@@ -100,15 +100,15 @@ test("AGAPAI, INGAT Remit and PACE show an image Cover with credit and no patter
     const c = card(title);
     expect(c.getByRole("img")).toBeDefined();
     expect(c.getByText(`Photo: ${credit}`)).toBeDefined();
-    expect(c.queryByTestId("cover-pattern")).toBeNull();
+    expect(c.queryByTestId("cover-gradient")).toBeNull();
   }
 });
 
-test("CREOMS shows the dot pattern and no photo or credit", () => {
+test("CREOMS shows the gradient Cover and no photo or credit", () => {
   render(<WorksPage />);
   for (const title of ["CREOMS"]) {
     const c = card(title);
-    expect(c.getByTestId("cover-pattern")).toBeDefined();
+    expect(c.getByTestId("cover-gradient")).toBeDefined();
     expect(c.queryByRole("img")).toBeNull();
     expect(c.queryByText(/^Photo:/)).toBeNull();
   }
@@ -127,13 +127,14 @@ test("under reduced motion, photo Covers show the unprocessed image with alt tex
   expect(img.getAttribute("alt")).toMatch(/Champion and Most Innovative/);
 });
 
-test("CREOMS pattern Cover carries the title in a label", () => {
+test("the gradient Cover does not repeat the title", () => {
   render(<WorksPage />);
-  const pattern = card("CREOMS").getByTestId("cover-pattern");
-  expect(pattern.textContent).toBe("CREOMS");
+  const c = card("CREOMS");
+  expect(c.getByTestId("cover-gradient").textContent).toBe("");
+  expect(c.getAllByText("CREOMS")).toHaveLength(1);
 });
 
-test("photo Covers carry the edge shine; the pattern Cover does not", () => {
+test("photo Covers carry the edge shine; the gradient Cover does not", () => {
   render(<WorksPage />);
   for (const title of ["AGAPAI", "INGAT Remit", "PACE"]) {
     expect(card(title).getByTestId("photo-shine")).toBeDefined();

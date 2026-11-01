@@ -6,7 +6,7 @@ export type Cover =
       credit: string;
       position?: string;
     }
-  | { kind: "pattern" };
+  | { kind: "gradient" };
 
 export const categories = ["Web", "Mobile", "Hackathon", "Research"] as const;
 export type Category = (typeof categories)[number];
@@ -75,7 +75,7 @@ export const works: Work[] = [
   },
   {
     title: "CREOMS",
-    cover: { kind: "pattern" },
+    cover: { kind: "gradient" },
     year: 2026,
     summary:
       "Customer relationship and e-commerce ordering management system for a client. I lead its development.",
