@@ -19,7 +19,7 @@ function useReducedMotion() {
   );
 }
 
-// A Work photo in full colour with a soft gray gradient highlight on its inside rim. The highlight
+// A Work photo in full colour with a black gradient highlight on its inside rim. The highlight
 // sweeps slowly at rest and points at the cursor (or touch) while it is over the card.
 export function ShinePhoto({
   src,
