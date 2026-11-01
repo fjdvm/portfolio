@@ -86,3 +86,47 @@ body {
   text-decoration-thickness: from-font;
   text-underline-position: from-font;
 }
+
+/* Specular shine on Work photo cards (see components/ui/shine-photo.tsx). */
+@property --shine-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 315deg;
+}
+
+@keyframes shine-sweep {
+  to {
+    --shine-angle: 675deg;
+  }
+}
+
+.shine-rim {
+  --shine-angle: 315deg;
+  padding: 2px;
+  background: conic-gradient(
+    from calc(var(--shine-angle) - 55deg),
+    transparent 0deg,
+    rgb(255 255 255 / 0.95) 55deg,
+    transparent 110deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  animation: shine-sweep 9s linear infinite;
+}
+
+.shine-rim[data-follow="true"],
+.shine-rim[data-static="true"] {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shine-rim {
+    animation: none;
+  }
+}

@@ -1,5 +1,7 @@
 import type { Work } from "@/lib/works";
-import { PatternArt, PhotoArt } from "./cover-art";
+import Image from "next/image";
+import { PatternArt } from "./cover-art";
+import { ShinePhoto } from "./shine-photo";
 import StarBorder from "./star-border";
 
 export function WorkCover({
@@ -36,11 +38,13 @@ export function WorkCover({
         borderColor="#c7c7cc"
         className={`!block !p-0 w-full overflow-hidden ${box}`}
       >
-        <PhotoArt
+        <Image
           src={cover.src}
           alt={cover.alt}
-          position={cover.position}
-          size={size}
+          fill
+          sizes="(min-width: 768px) 720px, 100vw"
+          className="object-contain"
+          style={{ objectPosition: cover.position }}
         />
       </StarBorder>
     );
@@ -50,12 +54,23 @@ export function WorkCover({
     return (
       <figure className={thumb ? "size-14 shrink-0" : undefined}>
         <div className={`relative overflow-hidden ${box}`}>
-          <PhotoArt
-            src={cover.src}
-            alt={cover.alt}
-            position={cover.position}
-            size={size}
-          />
+          {thumb ? (
+            <Image
+              src={cover.src}
+              alt={cover.alt}
+              fill
+              sizes="56px"
+              className="object-cover"
+              style={{ objectPosition: cover.position }}
+            />
+          ) : (
+            <ShinePhoto
+              src={cover.src}
+              alt={cover.alt}
+              position={cover.position}
+              sizes="(min-width: 768px) 50vw, 100vw"
+            />
+          )}
         </div>
         {showCredit && (
           <figcaption className={thumb ? "sr-only" : "mt-1 text-xs text-muted"}>

@@ -1,5 +1,6 @@
 import { afterEach, expect, test, vi } from "vitest";
-import { cleanup, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { mockMatchMedia } from "../vitest.setup";
 import WorksPage from "@/app/works/page";
 
 // jsdom has no WebGL; PatternWaves renders its canvas through ogl.
@@ -130,4 +131,34 @@ test("CREOMS pattern Cover carries the title in a label", () => {
   render(<WorksPage />);
   const pattern = card("CREOMS").getByTestId("cover-pattern");
   expect(pattern.textContent).toBe("CREOMS");
+});
+
+test("photo Covers carry the edge shine; the pattern Cover does not", () => {
+  render(<WorksPage />);
+  for (const title of ["AGAPAI", "INGAT Remit", "PACE"]) {
+    expect(card(title).getByTestId("photo-shine")).toBeDefined();
+  }
+  expect(card("CREOMS").queryByTestId("photo-shine")).toBeNull();
+});
+
+test("under reduced motion the shine is a static highlight", () => {
+  const { container } = render(<WorksPage />);
+  const rims = container.querySelectorAll(".shine-rim");
+  expect(rims).toHaveLength(3);
+  for (const rim of rims) expect(rim.getAttribute("data-static")).toBe("true");
+});
+
+test("the shine follows the pointer when motion is allowed", () => {
+  mockMatchMedia(false);
+  try {
+    const { container } = render(<WorksPage />);
+    const rim = container.querySelector<HTMLElement>(".shine-rim")!;
+    expect(rim.getAttribute("data-static")).toBeNull();
+    fireEvent.pointerMove(rim.parentElement!, { clientX: 10, clientY: 0 });
+    expect(rim.dataset.follow).toBe("true");
+    fireEvent.pointerLeave(rim.parentElement!);
+    expect(rim.dataset.follow).toBeUndefined();
+  } finally {
+    mockMatchMedia(true);
+  }
 });

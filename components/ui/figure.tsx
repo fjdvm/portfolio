@@ -13,7 +13,7 @@ export function Figure({
   return (
     <figure className="mt-[30px]">
       <div className="relative h-[300px] overflow-hidden rounded-xl">
-        <PhotoArt src={src} alt={alt} size="figure" />
+        <PhotoArt src={src} alt={alt} />
       </div>
       <figcaption className="mt-2.5 font-mono text-xs leading-[18px] text-faint">
         {caption}
