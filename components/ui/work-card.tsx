@@ -1,5 +1,6 @@
 import type { Work } from "@/lib/works";
 import { WorkCover } from "./work-cover";
+import { StatusBadge } from "./status-badge";
 import { AwardBadge } from "./award-badge";
 
 export function WorkCard({ work }: { work: Work }) {
@@ -8,11 +9,10 @@ export function WorkCard({ work }: { work: Work }) {
     <article className="flex flex-col gap-3 overflow-x-clip">
       <div className="relative">
         <WorkCover work={work} showCredit={false} />
-        {work.badge && (
-          <div className="absolute left-3.5 top-3.5">
-            <AwardBadge label={work.badge} />
-          </div>
-        )}
+        <div className="absolute left-3.5 top-3.5 flex flex-col items-start gap-2">
+          {work.cover.kind !== "photo" && <StatusBadge />}
+          {work.badge && <AwardBadge label={work.badge} />}
+        </div>
       </div>
       <div className="flex items-baseline justify-between gap-4">
         <h2 className="text-[17px] font-medium leading-[normal] text-ink">
