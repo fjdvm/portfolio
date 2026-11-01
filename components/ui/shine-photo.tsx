@@ -75,7 +75,7 @@ export function ShinePhoto({
       <div
         aria-hidden="true"
         data-testid="photo-shine"
-        className="pointer-events-none absolute inset-[2px] rounded-[calc(0.75rem-2px)] border border-black/20"
+        className="pointer-events-none absolute inset-[2px] rounded-[calc(var(--radius-xl)-2px)] border border-black/20"
       />
       <div
         ref={rim}
