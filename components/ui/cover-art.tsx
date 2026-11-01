@@ -38,55 +38,30 @@ function usePrefersReducedMotion() {
   );
 }
 
-// "top" or "center 18%" -> 0..1 vertical anchor, matching object-position.
-function focusYFrom(position?: string) {
-  if (!position) return 0.5;
-  if (position.includes("top")) return 0;
-  const percent = position.match(/(\d+(?:\.\d+)?)%\s*$/);
-  return percent ? Number(percent[1]) / 100 : 0.5;
-}
-
-export function PhotoArt({
-  src,
-  alt,
-  position,
-  size,
-}: {
-  src: string;
-  alt: string;
-  position?: string;
-  size: CoverArtSize;
-}) {
+// Essay figures only: muted halftone, revealed around the cursor. Work photos use ShinePhoto.
+export function PhotoArt({ src, alt }: { src: string; alt: string }) {
   const reduceMotion = usePrefersReducedMotion();
-  const { sizes, cell, reveal } = SIZES[size];
-  const hero = size === "hero";
+  const { sizes, cell, reveal } = SIZES.figure;
 
   if (reduceMotion) {
     return (
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        sizes={sizes}
-        className={hero ? "object-contain" : "object-cover"}
-        style={{ objectPosition: position }}
-      />
+      <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
     );
   }
   return (
     <div role="img" aria-label={alt} className="size-full">
       <HalftoneReveal
         src={src}
-        fit={hero ? "contain" : "cover"}
-        focusY={focusYFrom(position)}
-        mode={size === "figure" ? "mono" : "color"}
+        fit="cover"
+        focusY={0.5}
+        mode="mono"
         cellSize={cell}
         angle={45}
         inkColor={INK}
         paperColor={PAPER}
         contrast={1.15}
         revealRadius={reveal}
-        clickBurst={!hero}
+        clickBurst
         intro={false}
       />
     </div>

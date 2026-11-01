@@ -16,7 +16,11 @@ A piece of tech work the Owner shows, with a title, year, summary, stack tags, a
 _Avoid_: repo, app
 
 **Cover**:
-The image on a Work card. A photo when one exists, otherwise a slowly drifting dot pattern with the Work title in a white label.
+The image on a Work card. A photo when one exists, shown in full colour with a specular shine on its edge. Otherwise a generated colourful gradient, shown as dots until the Audience hovers and then revealed in colour around the cursor.
+
+**Status badge**:
+The plain pill on a Work Cover that has no photo, reading "Under development" with an icon. Shown on the Works page card of every Work without a photo, so it is never set by hand. The small Home thumbnail of that Work carries no badge. Distinct from the Award badge.
+_Avoid_: tag, label
 
 **Category**:
 A label on a Work (Web, Mobile, Hackathon, Research) that the Works page filters by. A Work can have more than one.
@@ -50,5 +54,5 @@ Split-remittance app for OFWs on Stellar, built for the Stellar APAC Hackathon 2
 - The portfolio shows tech work only; the Owner's art is out of scope.
 - Writings are hidden until the Owner has a first essay, including their route, RSS feed, nav link, footer RSS link and the Home "Recent writings" section. They appear automatically once a Writing exists.
 - Colour comes from photos; the interface itself stays neutral.
-- Only Event photos show in full colour at rest; Work and Writing images stay muted until the Audience interacts.
+- Event photos and Work photos show in full colour at rest; Writing images stay muted until the Audience interacts. Work Covers without a photo are the exception: dots at rest, colour on interaction.
 - Photos carry credit to their source (RISFI, Rise In and Stellar).
