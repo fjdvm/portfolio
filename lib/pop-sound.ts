@@ -1,9 +1,12 @@
-// A synthesised balloon pop for Event photos: a sharp burst of filtered noise (the
-// rubber snapping) over a short low thump (the air). No audio file. Browsers keep
-// audio suspended until the page has had a user gesture, so a pop with no gesture
-// behind it stays silent instead of queueing up to play later.
+// A cute synthesised "bloop" for Event photos: a soft sine that swoops upward, with a
+// quiet overtone for sparkle. Successive cards climb a major chord (C, E, G), so the
+// three reveals sound like a little arpeggio. No audio file. Browsers keep audio
+// suspended until the page has had a user gesture, so a pop with no gesture behind
+// it stays silent instead of queueing up to play later.
 let ctx: AudioContext | null = null;
-let noise: AudioBuffer | null = null;
+
+const BASE_HZ = 523.25; // C5
+const CHORD = [0, 4, 7, 12]; // semitones above the base
 
 function context(): AudioContext | null {
   if (typeof window === "undefined") return null;
@@ -18,53 +21,37 @@ function context(): AudioContext | null {
   return ctx;
 }
 
-function noiseBuffer(audio: AudioContext) {
-  if (!noise) {
-    noise = audio.createBuffer(1, Math.ceil(audio.sampleRate * 0.25), audio.sampleRate);
-    const data = noise.getChannelData(0);
-    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-  }
-  return noise;
-}
-
-function burst(audio: AudioContext, variation: number) {
+function bloop(audio: AudioContext, note: number) {
   const now = audio.currentTime;
+  const hz = BASE_HZ * 2 ** (CHORD[note % CHORD.length] / 12);
 
-  const crack = audio.createBufferSource();
-  crack.buffer = noiseBuffer(audio);
-  const band = audio.createBiquadFilter();
-  band.type = "bandpass";
-  band.frequency.value = 1800 + variation * 500;
-  band.Q.value = 0.7;
-  const crackGain = audio.createGain();
-  crackGain.gain.setValueAtTime(0.0001, now);
-  crackGain.gain.exponentialRampToValueAtTime(0.9, now + 0.002);
-  crackGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
-  crack.connect(band).connect(crackGain).connect(audio.destination);
-  crack.start(now);
-  crack.stop(now + 0.12);
+  const voice = (type: OscillatorType, ratio: number, peak: number) => {
+    const osc = audio.createOscillator();
+    osc.type = type;
+    // Start low and swoop up to the note: the "bloop".
+    osc.frequency.setValueAtTime(hz * ratio * 0.6, now);
+    osc.frequency.exponentialRampToValueAtTime(hz * ratio, now + 0.07);
+    const gain = audio.createGain();
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(peak, now + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+    osc.connect(gain).connect(audio.destination);
+    osc.start(now);
+    osc.stop(now + 0.18);
+  };
 
-  const thump = audio.createOscillator();
-  thump.type = "sine";
-  thump.frequency.setValueAtTime(220 - variation * 30, now);
-  thump.frequency.exponentialRampToValueAtTime(55, now + 0.08);
-  const thumpGain = audio.createGain();
-  thumpGain.gain.setValueAtTime(0.0001, now);
-  thumpGain.gain.exponentialRampToValueAtTime(0.5, now + 0.004);
-  thumpGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
-  thump.connect(thumpGain).connect(audio.destination);
-  thump.start(now);
-  thump.stop(now + 0.12);
+  voice("sine", 1, 0.28);
+  voice("triangle", 2, 0.07);
 }
 
 /**
- * Plays one balloon pop. `variation` (0–1) nudges its pitch so repeats differ.
+ * Plays one cute pop. `note` picks the pitch from a major chord, so 0, 1, 2 rise.
  * With `gesture` (a click) a suspended context is resumed first; without one the
  * pop only plays if the browser already allows audio.
  */
-export function playPop(variation = 0, { gesture = false } = {}) {
+export function playPop(note = 0, { gesture = false } = {}) {
   const audio = context();
   if (!audio) return;
-  if (audio.state === "running") return burst(audio, variation);
-  if (gesture) audio.resume().then(() => burst(audio, variation), () => {});
+  if (audio.state === "running") return bloop(audio, note);
+  if (gesture) audio.resume().then(() => bloop(audio, note), () => {});
 }

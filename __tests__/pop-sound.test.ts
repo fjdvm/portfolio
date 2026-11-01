@@ -44,11 +44,11 @@ test("playPop is silent when the browser has no AudioContext", () => {
   expect(() => playPop(0)).not.toThrow();
 });
 
-test("a pop is a noise burst plus a thump when audio is running", () => {
+test("a pop is a two-voice bloop when audio is running", () => {
   const { audio, started } = fakeAudio("running");
   vi.stubGlobal("AudioContext", function () { return audio; });
   Object.assign(window, { AudioContext: function () { return audio; } });
-  playPop(0.5);
+  playPop(1);
   expect(started).toHaveBeenCalledTimes(2);
 });
 
