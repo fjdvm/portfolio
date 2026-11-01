@@ -9,6 +9,8 @@ const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 // Canvas props take colour strings, so these mirror --ink and --paper.
 const INK = "#1d1d1f";
 const PAPER = "#f5f5f7";
+// The no-photo pattern rests as soft gray dots rather than full ink.
+const SOFT_INK = "#a1a1a6";
 
 export type CoverArtSize = "card" | "thumb" | "figure";
 
@@ -109,7 +111,7 @@ export function PatternArt({ size }: { size: "card" | "thumb" }) {
       mode="mono"
       cellSize={cell}
       angle={45}
-      inkColor={INK}
+      inkColor={SOFT_INK}
       paperColor={PAPER}
       contrast={1.15}
       revealRadius={reveal}
