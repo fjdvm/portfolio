@@ -143,6 +143,9 @@ test("hero photo with caption shows only when enabled", async () => {
   expect(screen.getAllByText("Photo: RISFI").length).toBe(2);
   // The hero carries the edge shine, not the star border.
   expect(screen.getAllByTestId("photo-shine").length).toBe(3);
+  for (const shine of screen.getAllByTestId("photo-shine")) {
+    expect(shine.getAttribute("data-tone")).toBe("light");
+  }
 });
 
 test("photo thumbnails in selected works carry the edge shine; CREOMS does not", async () => {

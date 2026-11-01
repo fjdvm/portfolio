@@ -37,7 +37,7 @@ export function WorkCover({
                   : "(min-width: 768px) 50vw, 100vw"
             }
             fit={size === "hero" ? "contain" : "cover"}
-            tone={thumb ? "light" : "blue"}
+            tone={size === "card" ? "blue" : "light"}
           />
         </div>
         {showCredit && (

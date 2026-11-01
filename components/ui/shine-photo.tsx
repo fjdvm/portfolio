@@ -34,7 +34,7 @@ export function ShinePhoto({
   position?: string;
   sizes: string;
   fit?: "cover" | "contain";
-  /** "blue" is the gradient highlight; "light" is a soft white one for small thumbnails. */
+  /** "blue" is the gradient highlight used on Works cards; "light" is a soft white one used on Home. */
   tone?: "blue" | "light";
 }) {
   const reduceMotion = useReducedMotion();
