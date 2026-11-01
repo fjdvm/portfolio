@@ -154,6 +154,11 @@ test("photo thumbnails in selected works carry the edge shine; CREOMS does not",
   expect(within(rows[2]).getByTestId("photo-shine")).toBeDefined();
 });
 
+test("no Status badge on the Home thumbnails", async () => {
+  render(await Home());
+  expect(screen.queryByText("Under development")).toBeNull();
+});
+
 test("photo work rows show their credit; CREOMS has none", async () => {
   render(await Home());
   const section = screen.getByRole("region", { name: "Selected works" });
