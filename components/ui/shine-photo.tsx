@@ -27,11 +27,16 @@ export function ShinePhoto({
   alt,
   position,
   sizes,
+  fit = "cover",
+  radius = "var(--radius-xl)",
 }: {
   src: string;
   alt: string;
   position?: string;
   sizes: string;
+  fit?: "cover" | "contain";
+  /** The frame's corner radius as a CSS length, so the inner line follows it. */
+  radius?: string;
 }) {
   const reduceMotion = useReducedMotion();
   const rim = useRef<HTMLDivElement>(null);
@@ -69,13 +74,14 @@ export function ShinePhoto({
         alt={alt}
         fill
         sizes={sizes}
-        className="object-cover"
+        className={fit === "contain" ? "object-contain" : "object-cover"}
         style={{ objectPosition: position }}
       />
       <div
         aria-hidden="true"
         data-testid="photo-shine"
-        className="pointer-events-none absolute inset-[2px] rounded-[calc(var(--radius-xl)-2px)] border border-black/20"
+        style={{ borderRadius: `calc(${radius} - 2px)` }}
+        className="pointer-events-none absolute inset-[2px] border border-black/20"
       />
       <div
         ref={rim}
