@@ -12,12 +12,12 @@ const cards = [
   {
     transform: "rotate(-9deg) translate(-112.75px, -2.34px)",
     src: "/images/works/AGAPAI_Most_Innovative.jpg",
-    alt: "Team AI Did It with the Most Innovative Prototype plaque at PUP Hackathon 2026. Photo: RISFI",
+    alt: "Team AI Did It with the Most Innovative Prototype plaque at PUP Hackathon 2026",
   },
   {
     transform: "rotate(0deg) translate(0px, -10px)",
     src: "/images/works/AGAPAI_Champion.jpg",
-    alt: "Team AI Did It holding the Champion and Most Innovative Prototype plaques. Photo: RISFI",
+    alt: "Team AI Did It holding the Champion and Most Innovative Prototype plaques",
     position: "center 5%",
   },
   {

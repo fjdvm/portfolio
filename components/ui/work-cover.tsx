@@ -39,7 +39,7 @@ export function WorkCover({
             fit={size === "hero" ? "contain" : "cover"}
           />
         </div>
-        {showCredit && (
+        {showCredit && cover.credit && (
           <figcaption className={thumb ? "sr-only" : "mt-1 text-xs text-muted"}>
             Photo: {cover.credit}
           </figcaption>
