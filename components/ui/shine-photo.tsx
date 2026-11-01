@@ -19,8 +19,7 @@ function useReducedMotion() {
   );
 }
 
-// A Work photo in full colour with a light-like highlight on its inside rim and a
-// faint dark line beneath it, so the rim reads on pale photos too. The highlight
+// A Work photo in full colour with a warm gold highlight on its inside rim. The highlight
 // sweeps slowly at rest and points at the cursor (or touch) while it is over the card.
 export function ShinePhoto({
   src,
@@ -28,15 +27,12 @@ export function ShinePhoto({
   position,
   sizes,
   fit = "cover",
-  radius = "var(--radius-xl)",
 }: {
   src: string;
   alt: string;
   position?: string;
   sizes: string;
   fit?: "cover" | "contain";
-  /** The frame's corner radius as a CSS length, so the inner line follows it. */
-  radius?: string;
 }) {
   const reduceMotion = useReducedMotion();
   const rim = useRef<HTMLDivElement>(null);
@@ -78,13 +74,8 @@ export function ShinePhoto({
         style={{ objectPosition: position }}
       />
       <div
-        aria-hidden="true"
-        data-testid="photo-shine"
-        style={{ borderRadius: `calc(${radius} - 2px)` }}
-        className="pointer-events-none absolute inset-[2px] border border-black/20"
-      />
-      <div
         ref={rim}
+        data-testid="photo-shine"
         aria-hidden="true"
         data-static={reduceMotion ? "true" : undefined}
         className="shine-rim pointer-events-none absolute inset-0 rounded-[inherit]"

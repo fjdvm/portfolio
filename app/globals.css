@@ -102,11 +102,13 @@ body {
 
 .shine-rim {
   --shine-angle: 315deg;
-  padding: 2px;
+  padding: 3px;
   background: conic-gradient(
     from calc(var(--shine-angle) - 55deg),
     transparent 0deg,
-    rgb(255 255 255 / 0.95) 55deg,
+    rgb(255 190 60 / 0.9) 30deg,
+    rgb(255 252 235) 55deg,
+    rgb(255 190 60 / 0.9) 80deg,
     transparent 110deg,
     transparent 360deg
   );
