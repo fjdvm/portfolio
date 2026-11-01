@@ -106,9 +106,9 @@ body {
   background: conic-gradient(
     from calc(var(--shine-angle) - 55deg),
     transparent 0deg,
-    rgb(0 0 0 / 0.35) 25deg,
-    rgb(0 0 0 / 0.9) 55deg,
-    rgb(0 0 0 / 0.35) 85deg,
+    rgb(30 30 34 / 0.2) 25deg,
+    rgb(30 30 34 / 0.6) 55deg,
+    rgb(30 30 34 / 0.2) 85deg,
     transparent 110deg,
     transparent 360deg
   );
