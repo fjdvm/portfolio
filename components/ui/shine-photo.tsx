@@ -19,7 +19,7 @@ function useReducedMotion() {
   );
 }
 
-// A Work photo in full colour with a blue gradient highlight on its inside rim. The highlight
+// A Work photo in full colour with a soft white highlight on its inside rim. The highlight
 // sweeps slowly at rest and points at the cursor (or touch) while it is over the card.
 export function ShinePhoto({
   src,
@@ -27,15 +27,12 @@ export function ShinePhoto({
   position,
   sizes,
   fit = "cover",
-  tone = "blue",
 }: {
   src: string;
   alt: string;
   position?: string;
   sizes: string;
   fit?: "cover" | "contain";
-  /** "blue" is the gradient highlight used on Works cards; "light" is a soft white one used on Home. */
-  tone?: "blue" | "light";
 }) {
   const reduceMotion = useReducedMotion();
   const rim = useRef<HTMLDivElement>(null);
@@ -79,7 +76,6 @@ export function ShinePhoto({
       <div
         ref={rim}
         data-testid="photo-shine"
-        data-tone={tone}
         aria-hidden="true"
         data-static={reduceMotion ? "true" : undefined}
         className="shine-rim pointer-events-none absolute inset-0 rounded-[inherit]"
