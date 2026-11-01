@@ -4,8 +4,6 @@ import { Construction } from "lucide-react";
 export function StatusBadge() {
   return (
     <span
-      role="status"
-      aria-label="Under development"
       className="inline-flex items-center gap-[5px] rounded-full border border-[#c7c7cc] bg-white px-[10px] py-[5px] text-xs leading-4 text-[#1d1d1f]"
     >
       <Construction aria-hidden="true" className="size-3" />

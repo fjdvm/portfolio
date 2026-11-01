@@ -116,7 +116,6 @@ test("CREOMS shows the pattern Cover and no photo or credit", () => {
 
 test("only Works without a photo show the Under development Status badge", () => {
   render(<WorksPage />);
-  expect(card("CREOMS").getByRole("status", { name: "Under development" })).toBeDefined();
   expect(card("CREOMS").getByText("Under development")).toBeDefined();
   for (const title of ["AGAPAI", "INGAT Remit", "PACE"]) {
     expect(card(title).queryByText("Under development")).toBeNull();
