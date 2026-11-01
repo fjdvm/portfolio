@@ -1,6 +1,6 @@
 import type { Work } from "@/lib/works";
 import Image from "next/image";
-import { PatternArt } from "./cover-art";
+import { GradientArt } from "./cover-art";
 import { ShinePhoto } from "./shine-photo";
 import StarBorder from "./star-border";
 
@@ -83,16 +83,11 @@ export function WorkCover({
 
   return (
     <div
-      data-testid="cover-pattern"
+      data-testid="cover-gradient"
       aria-hidden="true"
       className={`relative overflow-hidden ${box} ${thumb ? "shrink-0" : ""}`}
     >
-      <PatternArt size={size} />
-      {!thumb && (
-        <span className="absolute bottom-3.5 left-3.5 rounded-lg bg-surface px-3 pb-[9px] pt-2 font-serif text-xl font-medium leading-[normal] text-ink">
-          {work.title}
-        </span>
-      )}
+      <GradientArt size={thumb ? "thumb" : "card"} />
     </div>
   );
 }

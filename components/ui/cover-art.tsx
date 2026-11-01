@@ -3,25 +3,20 @@
 import { useSyncExternalStore } from "react";
 import Image from "next/image";
 import HalftoneReveal from "./halftone-reveal";
-import PatternWaves from "./pattern-waves";
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
-// Canvas props take colour strings, so these mirror --ink, --paper and the
-// pattern ground from the Figma component map (not a theme token).
+// Canvas props take colour strings, so these mirror --ink and --paper.
 const INK = "#1d1d1f";
 const PAPER = "#f5f5f7";
-const PATTERN_GROUND = "#e8e8ed";
 
-export type CoverArtSize = "hero" | "card" | "thumb" | "figure";
+export type CoverArtSize = "card" | "thumb" | "figure";
 
 const SIZES = {
-  // The whole portrait is contained in the frame, so dots are finer and nothing reveals.
-  hero: { sizes: "(min-width: 768px) 720px, 100vw", cell: 4, reveal: 0, spacing: 9 },
-  card: { sizes: "(min-width: 768px) 50vw, 100vw", cell: 7, reveal: 100, spacing: 9 },
-  thumb: { sizes: "56px", cell: 3, reveal: 28, spacing: 5 },
+  card: { sizes: "(min-width: 768px) 50vw, 100vw", cell: 7, reveal: 100 },
+  thumb: { sizes: "56px", cell: 3, reveal: 28 },
   // Images inside an essay: dots ≈7px, revealed around the cursor.
-  figure: { sizes: "(min-width: 768px) 640px, 100vw", cell: 7, reveal: 100, spacing: 9 },
+  figure: { sizes: "(min-width: 768px) 640px, 100vw", cell: 7, reveal: 100 },
 } satisfies Record<CoverArtSize, object>;
 
 function subscribeReducedMotion(onChange: () => void) {
@@ -68,20 +63,38 @@ export function PhotoArt({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-export function PatternArt({ size }: { size: CoverArtSize }) {
+// Generated cover for a Work with no photo: a colour gradient drawn as dots at rest,
+// revealed in full colour around the cursor. Under reduced motion it is the plain gradient.
+const GRADIENT_SVG =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="696" height="432">` +
+      `<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">` +
+      `<stop offset="0" stop-color="#ff5f6d"/><stop offset=".35" stop-color="#ffc371"/>` +
+      `<stop offset=".7" stop-color="#47c9e5"/><stop offset="1" stop-color="#7b5cff"/>` +
+      `</linearGradient></defs><rect width="696" height="432" fill="url(#g)"/></svg>`,
+  );
+const GRADIENT_CSS =
+  "linear-gradient(135deg, #ff5f6d 0%, #ffc371 35%, #47c9e5 70%, #7b5cff 100%)";
+
+export function GradientArt({ size }: { size: "card" | "thumb" }) {
+  const reduceMotion = usePrefersReducedMotion();
+  const { cell, reveal } = SIZES[size];
+
+  if (reduceMotion) {
+    return <div className="size-full" style={{ backgroundImage: GRADIENT_CSS }} />;
+  }
   return (
-    <PatternWaves
-      pattern="dot"
-      spacing={SIZES[size].spacing}
-      speed={0.3}
-      scale={0.5}
-      depth={1.5}
-      shine={0}
-      light={1}
-      color={INK}
-      backgroundColor={PATTERN_GROUND}
-      fade="none"
-      interactive={false}
+    <HalftoneReveal
+      src={GRADIENT_SVG}
+      fit="cover"
+      mode="color"
+      cellSize={cell}
+      angle={45}
+      inkColor={INK}
+      paperColor={PAPER}
+      revealRadius={reveal}
+      clickBurst
       intro={false}
     />
   );

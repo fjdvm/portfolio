@@ -11,8 +11,8 @@ import { site } from "@/lib/site";
 import { getWritings } from "@/lib/writings-source";
 import { fixtureWritings } from "./fixtures/writings";
 
-// jsdom has no WebGL; PatternWaves renders its canvas through ogl.
-vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
+// jsdom has no WebGL; HalftoneReveal draws its canvas with WebGL.
+vi.mock("@/components/ui/halftone-reveal", () => ({ default: () => null }));
 
 vi.mock("@/lib/writings-source", () => ({ getWritings: vi.fn() }));
 
@@ -83,7 +83,7 @@ test("selected works list CREOMS, AGAPAI, INGAT Remit in order with Covers and a
     "2026",
     "2026",
   ]);
-  expect(within(rows[0]).getByTestId("cover-pattern")).toBeDefined();
+  expect(within(rows[0]).getByTestId("cover-gradient")).toBeDefined();
   expect(within(rows[1]).getByRole("img", { name: /Champion/ })).toBeDefined();
   expect(
     within(rows[2]).getByRole("img", { name: /Stellar APAC/ }),

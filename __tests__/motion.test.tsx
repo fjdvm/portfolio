@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 
-// jsdom has no WebGL; PatternWaves renders its canvas through ogl.
-vi.mock("@/components/ui/pattern-waves", () => ({ default: () => null }));
+// jsdom has no WebGL; HalftoneReveal draws its canvas with WebGL.
+vi.mock("@/components/ui/halftone-reveal", () => ({ default: () => null }));
 import Home from "@/app/page";
 import { getWritings } from "@/lib/writings-source";
 import WorksPage from "@/app/works/page";
