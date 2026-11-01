@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useInView, useReducedMotion } from "motion/react";
 import BounceCards from "./bounce-cards";
+import { playPop } from "@/lib/pop-sound";
 
 // Figma "Event photos · BounceCards": 720×250 frame, 170px cards (6px white
 // frame), tilted about -9° / 0° / 9°. Each transform is the card's centre
@@ -48,6 +49,7 @@ export default function EventPhotos() {
             borderWidth={6}
             radius={16}
             animationDelay={0.1}
+            onReveal={playPop}
             transformStyles={cards.map((c) => c.transform)}
             style={
               {
