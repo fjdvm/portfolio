@@ -36,24 +36,28 @@ export function ShinePhoto({
 }) {
   const reduceMotion = useReducedMotion();
   const rim = useRef<HTMLDivElement>(null);
+  const glow = useRef<HTMLDivElement>(null);
 
   function follow(e: React.PointerEvent<HTMLDivElement>) {
-    const el = rim.current;
-    if (!el || reduceMotion) return;
+    if (reduceMotion) return;
     const box = e.currentTarget.getBoundingClientRect();
     const dx = e.clientX - (box.left + box.width / 2);
     const dy = e.clientY - (box.top + box.height / 2);
     // Conic angles run clockwise from the top.
     const angle = (Math.atan2(dx, -dy) * 180) / Math.PI;
-    el.dataset.follow = "true";
-    el.style.setProperty("--shine-angle", `${angle}deg`);
+    for (const el of [rim.current, glow.current]) {
+      if (!el) continue;
+      el.dataset.follow = "true";
+      el.style.setProperty("--shine-angle", `${angle}deg`);
+    }
   }
 
   function rest() {
-    const el = rim.current;
-    if (!el) return;
-    delete el.dataset.follow;
-    el.style.removeProperty("--shine-angle");
+    for (const el of [rim.current, glow.current]) {
+      if (!el) continue;
+      delete el.dataset.follow;
+      el.style.removeProperty("--shine-angle");
+    }
   }
 
   return (
@@ -72,6 +76,12 @@ export function ShinePhoto({
         sizes={sizes}
         className={fit === "contain" ? "object-contain" : "object-cover"}
         style={{ objectPosition: position }}
+      />
+      <div
+        ref={glow}
+        aria-hidden="true"
+        data-static={reduceMotion ? "true" : undefined}
+        className="shine-glow pointer-events-none absolute inset-0 rounded-[inherit]"
       />
       <div
         ref={rim}
