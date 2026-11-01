@@ -32,6 +32,8 @@ export interface HalftoneRevealProps {
   linger?: number;
   reverse?: boolean;
   wander?: boolean;
+  /** Slides a seamlessly tiling image: one loop moves it `x`,`y` (fractions of the image) every `seconds`; `pulse` (0–1) makes the dots swell in waves. */
+  scroll?: { x: number; y: number; seconds: number; pulse?: number };
   clickBurst?: boolean;
   intro?: boolean;
   className?: string;
@@ -59,6 +61,7 @@ type Settings = {
   linger: number;
   reverse: boolean;
   wander: boolean;
+  scroll: { x: number; y: number; seconds: number; pulse?: number } | null;
   clickBurst: boolean;
   intro: boolean;
 };
@@ -122,6 +125,10 @@ uniform float uBrightness;
 uniform float uInvert;
 uniform float uRough;
 uniform float uShift;
+uniform vec2 uScroll;
+uniform float uScrolling;
+uniform float uTime;
+uniform float uPulse;
 uniform vec3 uMatte;
 uniform float uKey;
 uniform float uReverse;
@@ -164,7 +171,8 @@ float noise(vec2 p) {
 
 vec4 photo(vec2 p, float lod, float margin) {
   vec2 uv = (p - uFrame.xy) / uFrame.zw;
-  vec4 c = textureLod(uImage, clamp(uv, 0.0, 1.0), lod);
+  vec2 suv = uScrolling > 0.5 ? fract(uv + uScroll) : clamp(uv, 0.0, 1.0);
+  vec4 c = textureLod(uImage, suv, lod);
   vec2 slack = margin * uCell / uFrame.zw;
   vec2 inside = step(-slack, uv) * step(uv, 1.0 + slack);
   float keep = inside.x * inside.y * c.a;
@@ -253,7 +261,8 @@ float dots(vec2 p, float angle, float t, float seed, float grow) {
   vec2 q = rotate(angle) * p / uCell;
   float d = metric(fract(q) - 0.5);
   d += (noise(p * 0.42 + seed * 17.0) - 0.5) * uRough * 0.18;
-  float r = reach(t) * uScale * grow;
+  float wave = 1.0 + uPulse * sin(uTime * 2.2 - (p.x * 0.9 + p.y * 0.6) / uCell * 0.5);
+  float r = reach(t) * uScale * grow * wave;
   float w = max(fwidth(d), 0.0001) * 0.75;
   return smoothstep(r + w, r - w, d) * clamp(r / (w * 2.0), 0.0, 1.0);
 }
@@ -444,6 +453,7 @@ const HalftoneReveal = ({
   linger = 1.2,
   reverse = false,
   wander = false,
+  scroll,
   clickBurst = true,
   intro = true,
   className = '',
@@ -473,6 +483,7 @@ const HalftoneReveal = ({
     linger: Math.max(0, linger),
     reverse,
     wander,
+    scroll: scroll ?? null,
     clickBurst,
     intro
   };
@@ -526,6 +537,10 @@ const HalftoneReveal = ({
       'uInvert',
       'uRough',
       'uShift',
+      'uScroll',
+      'uScrolling',
+      'uTime',
+      'uPulse',
       'uMatte',
       'uKey',
       'uReverse',
@@ -545,10 +560,11 @@ const HalftoneReveal = ({
 
     const floatMask = !!gl.getExtension('EXT_color_buffer_float');
     const imageTexture = gl.createTexture();
+    const wrapMode = settingsRef.current.scroll ? gl.REPEAT : gl.CLAMP_TO_EDGE;
     gl.bindTexture(gl.TEXTURE_2D, imageTexture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrapMode);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrapMode);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 
@@ -698,6 +714,12 @@ const HalftoneReveal = ({
       gl.uniform1f(viewUniforms.uInvert, s.invert ? 1 : 0);
       gl.uniform1f(viewUniforms.uRough, s.roughness);
       gl.uniform1f(viewUniforms.uShift, s.misregistration * s.cellSize * 0.35);
+      const sc = reduce ? null : s.scroll;
+      const loop = sc ? (now / 1000 / sc.seconds) % 1 : 0;
+      gl.uniform1f(viewUniforms.uScrolling, s.scroll ? 1 : 0);
+      gl.uniform1f(viewUniforms.uTime, (now / 1000) % 1000);
+      gl.uniform1f(viewUniforms.uPulse, sc ? (sc.pulse ?? 0) : 0);
+      gl.uniform2f(viewUniforms.uScroll, sc ? loop * sc.x : 0, sc ? loop * sc.y : 0);
       gl.uniform3fv(viewUniforms.uMatte, state.matte);
       gl.uniform1f(viewUniforms.uKey, state.key);
       gl.uniform1f(viewUniforms.uReverse, s.reverse ? 1 : 0);
@@ -761,7 +783,7 @@ const HalftoneReveal = ({
       const intro = drawView(s, now);
 
       const busy =
-        engaged || state.presence > 0.002 || bursts.length > 0 || now < state.trailUntil || (state.image && intro < 1);
+        (s.scroll && !reduce) || engaged || state.presence > 0.002 || bursts.length > 0 || now < state.trailUntil || (state.image && intro < 1);
       if (busy) raf = requestAnimationFrame(frame);
       else last = 0;
     };

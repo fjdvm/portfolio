@@ -68,7 +68,7 @@ export function PhotoArt({ src, alt }: { src: string; alt: string }) {
 // Generated cover for a Work with no photo: a colourful Bauhaus-style tile pattern, drawn as
 // mono dots at rest and revealed in full colour around the cursor. Under reduced motion it is
 // the plain pattern.
-const W = 696;
+const W = 720; // a whole number of tiles, so the pattern loops seamlessly
 const H = 432;
 const TILE = 72;
 const PATTERN_SVG =
@@ -95,6 +95,8 @@ const PATTERN_SVG =
   `<rect width="${W}" height="${H}" fill="url(#t)"/>` +
   `</svg>`;
 const PATTERN_SRC = "data:image/svg+xml," + encodeURIComponent(PATTERN_SVG);
+// One loop slides the pattern a whole tile across and down.
+const PATTERN_SCROLL = { x: (TILE * 2) / W, y: (TILE * 2) / H, seconds: 14, pulse: 0.22 };
 const PATTERN_CSS = `url("${PATTERN_SRC}") center / cover`;
 
 export function PatternArt({ size }: { size: "card" | "thumb" }) {
@@ -114,6 +116,7 @@ export function PatternArt({ size }: { size: "card" | "thumb" }) {
       inkColor={SOFT_INK}
       paperColor={PAPER}
       contrast={1.15}
+      scroll={PATTERN_SCROLL}
       revealRadius={reveal}
       clickBurst
       intro={false}
