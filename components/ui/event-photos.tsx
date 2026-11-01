@@ -49,7 +49,9 @@ export default function EventPhotos() {
             borderWidth={6}
             radius={16}
             animationDelay={0.1}
-            onReveal={playPop}
+            animationStagger={0.3}
+            onReveal={(i) => playPop(i / 2)}
+            onCardClick={(i) => playPop(i / 2, { gesture: true })}
             transformStyles={cards.map((c) => c.transform)}
             style={
               {
