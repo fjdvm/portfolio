@@ -102,14 +102,6 @@ body {
 
 .shine-rim {
   --shine-angle: 315deg;
-  padding: 2px;
-  background: conic-gradient(
-    from calc(var(--shine-angle) - 55deg),
-    transparent 0deg,
-    rgb(255 255 255 / 0.95) 55deg,
-    transparent 110deg,
-    transparent 360deg
-  );
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -120,13 +112,71 @@ body {
   animation: shine-sweep 9s linear infinite;
 }
 
+/* The sharp bright rim. */
+.shine-rim {
+  padding: 0.5px;
+  background: conic-gradient(
+    from calc(var(--shine-angle) - 70deg),
+    transparent 0deg,
+    rgb(255 255 255 / 0.4) 25deg,
+    rgb(255 255 255) 70deg,
+    rgb(255 255 255 / 0.4) 115deg,
+    transparent 140deg,
+    transparent 360deg
+  );
+}
+
+/* A glint that sweeps across the photo now and then, and a soft spotlight under the pointer. */
+@keyframes shine-sheen {
+  0% {
+    background-position: 130% 0;
+  }
+  45%,
+  100% {
+    background-position: -30% 0;
+  }
+}
+
+.shine-sheen {
+  background: linear-gradient(
+    115deg,
+    transparent 34%,
+    rgb(255 255 255 / 0.2) 43%,
+    rgb(255 255 255 / 0.75) 50%,
+    rgb(255 255 255 / 0.2) 57%,
+    transparent 66%
+  );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  animation: shine-sheen 7s ease-in-out infinite;
+}
+
+.shine-sheen[data-static="true"] {
+  display: none;
+}
+
+.shine-spot {
+  opacity: 0;
+  transition: opacity 0.25s;
+  background: radial-gradient(
+    circle 110px at var(--shine-x, 50%) var(--shine-y, 50%),
+    rgb(255 255 255 / 0.5),
+    transparent
+  );
+}
+
+.shine-spot[data-on="true"] {
+  opacity: 1;
+}
+
 .shine-rim[data-follow="true"],
 .shine-rim[data-static="true"] {
   animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .shine-rim {
+  .shine-rim,
+  .shine-sheen {
     animation: none;
   }
 }

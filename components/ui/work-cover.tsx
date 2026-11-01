@@ -20,11 +20,6 @@ export function WorkCover({
       : "aspect-[348/216] rounded-xl";
 
   if (cover.kind === "photo") {
-    const radius = thumb
-      ? "var(--radius-lg)"
-      : size === "hero"
-        ? "14px"
-        : "var(--radius-xl)";
     return (
       <figure className={thumb ? "size-14 shrink-0" : undefined}>
         <div
@@ -42,7 +37,6 @@ export function WorkCover({
                   : "(min-width: 768px) 50vw, 100vw"
             }
             fit={size === "hero" ? "contain" : "cover"}
-            radius={radius}
           />
         </div>
         {showCredit && (

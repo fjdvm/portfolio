@@ -27,6 +27,8 @@ export type BounceCardsProps = {
   shadow?: boolean;
   transformStyles?: string[];
   onCardClick?: (index: number) => void;
+  /** Called once per card, the moment it starts to pop in. */
+  onReveal?: (index: number) => void;
 };
 
 type Slot = { x: number; y: number; rotate: number };
@@ -41,6 +43,7 @@ type Body = {
   vr: number;
   vs: number;
   born: number;
+  revealed: boolean;
 };
 
 const ROOT = 'relative touch-pan-y [-webkit-tap-highlight-color:transparent]';
@@ -90,7 +93,8 @@ export default function BounceCards({
   radius = 25,
   shadow = true,
   transformStyles,
-  onCardClick
+  onCardClick,
+  onReveal
 }: BounceCardsProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -124,6 +128,8 @@ export default function BounceCards({
   settingsRef.current = settings;
   const clickRef = useRef(onCardClick);
   clickRef.current = onCardClick;
+  const revealRef = useRef(onReveal);
+  revealRef.current = onReveal;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -148,7 +154,8 @@ export default function BounceCards({
           vy: 0,
           vr: 0,
           vs: 0,
-          born: state.time
+          born: state.time,
+          revealed: false
         };
       }
       return bodies[i];
@@ -189,6 +196,10 @@ export default function BounceCards({
         const card = body(i);
         const slot = s.slots[i];
         const appeared = reduce || state.time - card.born >= s.delay + i * s.stagger;
+        if (appeared && !card.revealed) {
+          card.revealed = true;
+          if (!reduce) revealRef.current?.(i);
+        }
         let targetX = slot.x;
         let targetY = slot.y;
         let targetRotate = slot.rotate;

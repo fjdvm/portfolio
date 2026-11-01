@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useInView, useReducedMotion } from "motion/react";
 import BounceCards from "./bounce-cards";
+import { playPop, primeAudio } from "@/lib/pop-sound";
 
 // Figma "Event photos · BounceCards": 720×250 frame, 170px cards (6px white
 // frame), tilted about -9° / 0° / 9°. Each transform is the card's centre
@@ -31,6 +32,9 @@ export default function EventPhotos() {
   const reduce = useReducedMotion();
   const inView = useInView(ref, { once: true, amount: 0.5 });
 
+  // Have the audio engine awake before the first card pops.
+  useEffect(() => primeAudio(), []);
+
   // The bounce plays once, when the cluster scrolls into view; with reduced
   // motion the cards are simply there.
   return (
@@ -48,6 +52,9 @@ export default function EventPhotos() {
             borderWidth={6}
             radius={16}
             animationDelay={0.1}
+            animationStagger={0.3}
+            onReveal={(i) => playPop(i)}
+            onCardClick={(i) => playPop(i)}
             transformStyles={cards.map((c) => c.transform)}
             style={
               {
