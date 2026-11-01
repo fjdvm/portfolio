@@ -27,12 +27,15 @@ export function ShinePhoto({
   position,
   sizes,
   fit = "cover",
+  tone = "blue",
 }: {
   src: string;
   alt: string;
   position?: string;
   sizes: string;
   fit?: "cover" | "contain";
+  /** "blue" is the gradient highlight; "light" is a soft white one for small thumbnails. */
+  tone?: "blue" | "light";
 }) {
   const reduceMotion = useReducedMotion();
   const rim = useRef<HTMLDivElement>(null);
@@ -76,6 +79,7 @@ export function ShinePhoto({
       <div
         ref={rim}
         data-testid="photo-shine"
+        data-tone={tone}
         aria-hidden="true"
         data-static={reduceMotion ? "true" : undefined}
         className="shine-rim pointer-events-none absolute inset-0 rounded-[inherit]"

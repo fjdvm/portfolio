@@ -122,6 +122,17 @@ body {
   animation: shine-sweep 9s linear infinite;
 }
 
+.shine-rim[data-tone="light"] {
+  padding: 2px;
+  background: conic-gradient(
+    from calc(var(--shine-angle) - 55deg),
+    transparent 0deg,
+    rgb(255 255 255 / 0.95) 55deg,
+    transparent 110deg,
+    transparent 360deg
+  );
+}
+
 .shine-rim[data-follow="true"],
 .shine-rim[data-static="true"] {
   animation: none;

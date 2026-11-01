@@ -152,6 +152,9 @@ test("photo thumbnails in selected works carry the edge shine; CREOMS does not",
   expect(within(rows[0]).queryByTestId("photo-shine")).toBeNull();
   expect(within(rows[1]).getByTestId("photo-shine")).toBeDefined();
   expect(within(rows[2]).getByTestId("photo-shine")).toBeDefined();
+  expect(
+    within(rows[1]).getByTestId("photo-shine").getAttribute("data-tone"),
+  ).toBe("light");
 });
 
 test("photo work rows show their credit; CREOMS has none", async () => {

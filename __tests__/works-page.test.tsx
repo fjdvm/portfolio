@@ -137,7 +137,9 @@ test("the pattern Cover does not repeat the title", () => {
 test("photo Covers carry the edge shine; the pattern Cover does not", () => {
   render(<WorksPage />);
   for (const title of ["AGAPAI", "INGAT Remit", "PACE"]) {
-    expect(card(title).getByTestId("photo-shine")).toBeDefined();
+    expect(card(title).getByTestId("photo-shine").getAttribute("data-tone")).toBe(
+      "blue",
+    );
   }
   expect(card("CREOMS").queryByTestId("photo-shine")).toBeNull();
 });
